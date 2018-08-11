@@ -1,4 +1,4 @@
-package com.application.hasaker.order;
+package com.application.hasaker;
 
 import org.junit.Test;
 

@@ -1,10 +1,8 @@
-package com.application.hasaker.order;
+package com.application.hasaker;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
-import android.support.design.widget.Snackbar;
-import android.support.v4.content.ContextCompat;
 import android.widget.Toast;
 
 public class Database extends SQLiteOpenHelper {
@@ -17,8 +15,6 @@ public class Database extends SQLiteOpenHelper {
             + "id integer primary key autoincrement, "
             + "name text, "
             + "peppery integer, "
-            + "vinegar boolean, "
-            + "balm boolean, "
             + "amount integer)";
 
     private Context mContext;

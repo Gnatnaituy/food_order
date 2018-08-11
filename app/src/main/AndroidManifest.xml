@@ -1,17 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.application.hasaker.order">
+    package="com.application.hasaker">
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="点菜"
+        android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
         <activity
             android:name=".MainActivity"
-            android:label="@string/app_name"
+            android:label="等待完成的订单"
             android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -19,9 +19,8 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".AddActivity" />
-        <activity android:name=".ManageActivity" />
-        <activity android:name=".FinishedActivity"></activity>
+        <activity android:name=".CategoryActivity" />
+        <activity android:name=".AddTodoActivity"></activity>
     </application>
 
 </manifest>
