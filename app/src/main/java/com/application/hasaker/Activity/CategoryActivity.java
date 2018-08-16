@@ -1,4 +1,4 @@
-package com.application.hasaker;
+package com.application.hasaker.Activity;
 
 import android.content.ContentValues;
 import android.database.Cursor;
@@ -7,13 +7,20 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextUtils;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
+
+import com.application.hasaker.Adapter.CategoryAdapter;
+import com.application.hasaker.Module.Database;
+import com.application.hasaker.R;
+import com.application.hasaker.RecyclerViewItemTouchHelperCallback;
 
 import java.util.ArrayList;
 
@@ -51,6 +58,12 @@ public class CategoryActivity extends AppCompatActivity {
         RecyclerView foodRecyclerView = findViewById(R.id.category_list);
         foodRecyclerView.setLayoutManager(foodLayoutManager);
         foodRecyclerView.setAdapter(foodAdapter);
+        foodRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        ItemTouchHelper.Callback callback = new RecyclerViewItemTouchHelperCallback(
+                (RecyclerViewItemTouchHelperCallback.ItemTouchHelperCallback) foodAdapter);
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+        itemTouchHelper.attachToRecyclerView(foodRecyclerView);
     }
 
     private ArrayList<String> getData(){
@@ -70,6 +83,9 @@ public class CategoryActivity extends AppCompatActivity {
         return data;
     }
 
+    /**
+     * Floating Add Button Configuration
+     */
     private void addFoodtoCategory() {
         dbHelper = new Database(CategoryActivity.this, "Category", null, 1);
 
@@ -94,8 +110,9 @@ public class CategoryActivity extends AppCompatActivity {
                     SQLiteDatabase db = dbHelper.getWritableDatabase();
                     ContentValues values = new ContentValues();
                     values.put("name", etName.getText().toString());
-                    db.insert("Food", null, values);
+                    db.insert("Database", null, values);
                     dialog.dismiss();
+                    Toast.makeText(CategoryActivity.this, "添加成功", Toast.LENGTH_LONG).show();
                 }
             }
         });

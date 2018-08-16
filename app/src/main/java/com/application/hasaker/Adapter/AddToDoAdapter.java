@@ -1,4 +1,4 @@
-package com.application.hasaker;
+package com.application.hasaker.Adapter;
 
 import android.support.annotation.NonNull;
 import android.support.v7.widget.RecyclerView;
@@ -7,12 +7,17 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import java.util.ArrayList;
+import com.application.hasaker.R;
+import com.application.hasaker.RecyclerViewItemTouchHelperCallback;
 
-public class AddToDoAdapter extends RecyclerView.Adapter<AddToDoAdapter.ViewHolder> {
+import java.util.ArrayList;
+import java.util.Collections;
+
+public class AddToDoAdapter extends RecyclerView.Adapter<AddToDoAdapter.ViewHolder>
+        implements RecyclerViewItemTouchHelperCallback.ItemTouchHelperCallback {
     private ArrayList<String> mData;
 
-    AddToDoAdapter(ArrayList<String> data) {
+    public AddToDoAdapter(ArrayList<String> data) {
         this.mData = data;
     }
 
@@ -44,5 +49,17 @@ public class AddToDoAdapter extends RecyclerView.Adapter<AddToDoAdapter.ViewHold
             super(itemView);
             mItem = itemView.findViewById(R.id.addtodo_food_item);
         }
+    }
+
+    @Override
+    public void onItemDelete(int position) {
+        mData.remove(position);
+        notifyItemRemoved(position);
+    }
+
+    @Override
+    public void onMove(int fromPosition, int toPosition) {
+        Collections.swap(mData, fromPosition, toPosition);
+        notifyItemMoved(fromPosition, toPosition);
     }
 }

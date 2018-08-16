@@ -1,9 +1,12 @@
-package com.application.hasaker;
+package com.application.hasaker.Module;
 
 import android.content.Context;
+import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.widget.Toast;
+
+import java.util.ArrayList;
 
 public class Database extends SQLiteOpenHelper {
 
@@ -36,5 +39,20 @@ public class Database extends SQLiteOpenHelper {
         db.execSQL("drop table if exists Food");
         db.execSQL("drop table if exists Todo");
         onCreate(db);
+    }
+
+    public ArrayList<String> getAllItems(String tableName, String columnName) {
+        ArrayList<String> allItems = new ArrayList<>();
+        SQLiteDatabase db = getWritableDatabase();
+        Cursor c = db.rawQuery("select * from " + tableName + "." + columnName, null);
+        c.moveToFirst();
+
+        while (!c.isAfterLast()) {
+            allItems.add(c.getString(c.getColumnIndex(columnName)));
+            c.moveToNext();
+        }
+        c.close();
+
+        return allItems;
     }
 }
