@@ -18,16 +18,20 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.application.hasaker.Adapter.CategoryAdapter;
+import com.application.hasaker.DB.Food;
 import com.application.hasaker.Module.Database;
 import com.application.hasaker.R;
 import com.application.hasaker.RecyclerViewItemTouchHelperCallback;
 
+import org.litepal.LitePal;
+
 import java.util.ArrayList;
+import java.util.List;
 
 
 public class CategoryActivity extends AppCompatActivity {
 
-    private Database dbHelper;
+    SQLiteDatabase db = LitePal.getDatabase();
 
     private RecyclerView.Adapter foodAdapter;
     private RecyclerView.LayoutManager foodLayoutManager;
@@ -68,17 +72,11 @@ public class CategoryActivity extends AppCompatActivity {
 
     private ArrayList<String> getData(){
         ArrayList<String> data = new ArrayList<>();
-        // Get data from database
-        dbHelper = new Database(CategoryActivity.this, "Category", null, 1);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.query("Food", null,null,null,null,null, null);
-        if (cursor.moveToNext()) {
-            do {
-                String food_name = cursor.getString(cursor.getColumnIndex("name"));
-                data.add(food_name);
-            } while (cursor.moveToNext());
+
+        List<Food> allFood = LitePal.findAll(Food.class);
+        for (Food food: allFood) {
+            data.add(food.getName());
         }
-        cursor.close();
 
         return data;
     }
@@ -87,8 +85,6 @@ public class CategoryActivity extends AppCompatActivity {
      * Floating Add Button Configuration
      */
     private void addFoodtoCategory() {
-        dbHelper = new Database(CategoryActivity.this, "Category", null, 1);
-
         AlertDialog.Builder builder = new AlertDialog.Builder(CategoryActivity.this);
         final AlertDialog dialog = builder.create();
         View dialogView = View.inflate(CategoryActivity.this, R.layout.category_add_dialog, null);
@@ -107,10 +103,9 @@ public class CategoryActivity extends AppCompatActivity {
                 if (TextUtils.isEmpty(etName.getText().toString())) {
                     Toast.makeText(CategoryActivity.this, "菜名不能为空", Toast.LENGTH_LONG).show();
                 } else {
-                    SQLiteDatabase db = dbHelper.getWritableDatabase();
-                    ContentValues values = new ContentValues();
-                    values.put("name", etName.getText().toString());
-                    db.insert("Database", null, values);
+                    Food food = new Food();
+                    food.setName(etName.getText().toString());
+                    food.save();
                     dialog.dismiss();
                     Toast.makeText(CategoryActivity.this, "添加成功", Toast.LENGTH_LONG).show();
                 }

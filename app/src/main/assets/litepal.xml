@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<litepal>
+    <dbname value="fooddatabase" />
+    <version value="1" />
+    <storage value="external" />
+    <list>
+        <mapping class="com.application.hasaker.DB.Food" />
+        <mapping class="com.application.hasaker.DB.Todo" />
+    </list>
+</litepal>

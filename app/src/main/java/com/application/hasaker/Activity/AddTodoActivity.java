@@ -10,13 +10,19 @@ import android.support.v7.widget.helper.ItemTouchHelper;
 import android.widget.LinearLayout;
 
 import com.application.hasaker.Adapter.AddToDoAdapter;
+import com.application.hasaker.DB.Food;
 import com.application.hasaker.Module.Database;
 import com.application.hasaker.R;
 import com.application.hasaker.RecyclerViewItemTouchHelperCallback;
 
+import org.litepal.LitePal;
+
 import java.util.ArrayList;
+import java.util.List;
 
 public class AddTodoActivity extends AppCompatActivity {
+
+    SQLiteDatabase db = LitePal.getDatabase();
 
     private RecyclerView.Adapter foodAdapter;
     private RecyclerView.LayoutManager foodLayoutManager;
@@ -49,17 +55,10 @@ public class AddTodoActivity extends AppCompatActivity {
     private ArrayList<String> getData() {
         ArrayList<String> data = new ArrayList<>();
         // Get data from database
-        Database dbHelper = new Database(AddTodoActivity.this, "Category", null, 1);
-        SQLiteDatabase db = dbHelper.getWritableDatabase();
-        Cursor cursor = db.query("Food", null, null,
-                null, null, null, null);
-        if (cursor.moveToNext()) {
-            do {
-                String food_name = cursor.getString(cursor.getColumnIndex("name"));
-                data.add(food_name);
-            } while (cursor.moveToNext());
+        List<Food> allFood = LitePal.findAll(Food.class);
+        for (Food food: allFood) {
+            data.add(food.getName());
         }
-        cursor.close();
 
         return data;
     }

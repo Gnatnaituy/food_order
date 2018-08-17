@@ -12,12 +12,16 @@ import android.widget.Toast;
 
 import com.application.hasaker.R;
 
+import org.litepal.LitePal;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity);
+
+        LitePal.initialize(this);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

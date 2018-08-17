@@ -13,6 +13,7 @@ import com.application.hasaker.RecyclerViewItemTouchHelperCallback;
 import java.util.ArrayList;
 import java.util.Collections;
 
+
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder>
         implements RecyclerViewItemTouchHelperCallback.ItemTouchHelperCallback {
 
@@ -48,10 +49,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public void onItemDelete(int position) {
-        if (position >= -1) {
-            mData.remove(position);
-            notifyItemRemoved(position);
-        }
+        mData.remove(position);
+        notifyItemRemoved(position);
     }
 
     @Override
