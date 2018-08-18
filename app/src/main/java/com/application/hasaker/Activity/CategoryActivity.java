@@ -1,8 +1,7 @@
 package com.application.hasaker.Activity;
 
-import android.content.ContentValues;
-import android.database.Cursor;
-import android.database.sqlite.SQLiteDatabase;
+import android.graphics.Canvas;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
@@ -19,22 +18,21 @@ import android.widget.Toast;
 
 import com.application.hasaker.Adapter.CategoryAdapter;
 import com.application.hasaker.DB.Food;
-import com.application.hasaker.Module.Database;
+import com.application.hasaker.ItemSwipeController;
+import com.application.hasaker.SwipeControllerActions;
 import com.application.hasaker.R;
-import com.application.hasaker.RecyclerViewItemTouchHelperCallback;
 
 import org.litepal.LitePal;
 
-import java.util.ArrayList;
 import java.util.List;
 
 
 public class CategoryActivity extends AppCompatActivity {
 
-    SQLiteDatabase db = LitePal.getDatabase();
+    private CategoryAdapter foodAdapter;
 
-    private RecyclerView.Adapter foodAdapter;
-    private RecyclerView.LayoutManager foodLayoutManager;
+    ItemSwipeController itemSwipeController;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,31 +52,45 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     private void initData(){
-        foodAdapter = new CategoryAdapter(getData());
-        foodLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+//        List<Food> mFoodList = new ArrayList<>();
+//        foodAdapter = new CategoryAdapter(getData());
+//        foodLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
+        List<Food> mFoodList = LitePal.findAll(Food.class);
+
+        foodAdapter = new CategoryAdapter(mFoodList);
     }
 
     private void initView() {
         RecyclerView foodRecyclerView = findViewById(R.id.category_list);
-        foodRecyclerView.setLayoutManager(foodLayoutManager);
+        foodRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         foodRecyclerView.setAdapter(foodAdapter);
         foodRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        ItemTouchHelper.Callback callback = new RecyclerViewItemTouchHelperCallback(
-                (RecyclerViewItemTouchHelperCallback.ItemTouchHelperCallback) foodAdapter);
-        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-        itemTouchHelper.attachToRecyclerView(foodRecyclerView);
-    }
+//        ItemTouchHelper.Callback callback = new RecyclerViewItemTouchHelperCallback(
+//                (RecyclerViewItemTouchHelperCallback.ItemTouchHelperCallback) foodAdapter);
+//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
+//        itemTouchHelper.attachToRecyclerView(foodRecyclerView);
 
-    private ArrayList<String> getData(){
-        ArrayList<String> data = new ArrayList<>();
+        itemSwipeController = new ItemSwipeController(new SwipeControllerActions() {
+            @Override
+            public void onRightClicked(int position) {
+                Food food = foodAdapter.foodList.get(position);
+                food.delete();
+                foodAdapter.foodList.remove(position);
+                foodAdapter.notifyItemRemoved(position);
+                foodAdapter.notifyItemRangeChanged(position, foodAdapter.getItemCount());
+            }
+        });
 
-        List<Food> allFood = LitePal.findAll(Food.class);
-        for (Food food: allFood) {
-            data.add(food.getName());
-        }
+        final ItemTouchHelper itemTouchhelper = new ItemTouchHelper(itemSwipeController);
+        itemTouchhelper.attachToRecyclerView(foodRecyclerView);
 
-        return data;
+        foodRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                itemSwipeController.onDraw(c);
+            }
+        });
     }
 
     /**
@@ -96,7 +108,7 @@ public class CategoryActivity extends AppCompatActivity {
         final EditText etName = dialogView.findViewById(R.id.et_food_name);
         Button btnSave = dialogView.findViewById(R.id.btn_save);
         Button btnCancel = dialogView.findViewById(R.id.btn_cancel);
-        // Save Button configuration
+
         btnSave.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -111,7 +123,7 @@ public class CategoryActivity extends AppCompatActivity {
                 }
             }
         });
-        // Cancel Button configuration
+
         btnCancel.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

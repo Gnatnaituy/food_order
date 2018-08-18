@@ -7,73 +7,78 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import com.application.hasaker.DB.Food;
 import com.application.hasaker.R;
-import com.application.hasaker.RecyclerViewItemTouchHelperCallback;
 
-import java.util.ArrayList;
-import java.util.Collections;
+import java.util.List;
 
 
-public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder>
-        implements RecyclerViewItemTouchHelperCallback.ItemTouchHelperCallback {
+public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.FoodViewHolder> {
 
-    private ArrayList<String> mData;
+    public List<Food> foodList;
 
-    public CategoryAdapter(ArrayList<String> data)  {
-        this.mData = data;
+    class FoodViewHolder extends RecyclerView.ViewHolder {
+        private TextView name;
+         FoodViewHolder(View view) {
+             super(view);
+             name = view.findViewById(R.id.category_food_item);
+         }
     }
 
-    public void updateData(ArrayList<String> data) {
-        this.mData = data;
-        notifyDataSetChanged();
+    public CategoryAdapter(List<Food> data)  {
+        this.foodList = data;
     }
 
-    // set View
+//    public void updateData(List<Food> data) {
+//        this.foodList = data;
+//        notifyDataSetChanged();
+//    }
+
     @NonNull
     @Override
-    public ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.category_item, parent, false);
-        return new ViewHolder(view);
+        return new FoodViewHolder(view);
     }
 
-    // set Data
     @Override
-    public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
-        holder.textView.setText(mData.get(position));
+    public void onBindViewHolder(@NonNull final FoodViewHolder holder, int position) {
+        Food food = foodList.get(position);
+        holder.name.setText(food.getName());
     }
 
     @Override
     public int getItemCount() {
-        return mData == null ? 0 : mData.size();
+        return foodList == null ? 0 : foodList.size();
     }
 
-    @Override
-    public void onItemDelete(int position) {
-        mData.remove(position);
-        notifyItemRemoved(position);
-    }
+//    @Override
+//    public void onItemDelete(int position) {
+//        foodList.remove(position);
+//        notifyItemRemoved(position);
+//    }
+//
+//    @Override
+//    public void onMove(int fromPosition, int toPosition) {
+//        if (fromPosition < toPosition) {
+//            for (int i = fromPosition; i < toPosition; i++) {
+//                Collections.swap(foodList, i, i + 1);
+//            }
+//        } else {
+//            for (int i = fromPosition; i > toPosition; i--) {
+//                Collections.swap(foodList, i, i - 1);
+//            }
+//        }
+//        Collections.swap(foodList, fromPosition, toPosition);
+//        notifyItemMoved(fromPosition, toPosition);
+//    }
 
-    @Override
-    public void onMove(int fromPosition, int toPosition) {
-        if (fromPosition < toPosition) {
-            for (int i = fromPosition; i < toPosition; i++) {
-                Collections.swap(mData, i, i + 1);
-            }
-        } else {
-            for (int i = fromPosition; i > toPosition; i--) {
-                Collections.swap(mData, i, i - 1);
-            }
-        }
-        Collections.swap(mData, fromPosition, toPosition);
-        notifyItemMoved(fromPosition, toPosition);
-    }
-
-    static class ViewHolder extends RecyclerView.ViewHolder {
-        TextView textView;
-
-        ViewHolder(View itemView) {
-            super(itemView);
-            textView = itemView.findViewById(R.id.category_food_item);
-        }
-    }
+//    static class ViewHolder extends RecyclerView.ViewHolder {
+//        TextView textView;
+//
+//        ViewHolder(View itemView) {
+//            super(itemView);
+//            textView = itemView.findViewById(R.id.category_food_item);
+//        }
+//    }
 }

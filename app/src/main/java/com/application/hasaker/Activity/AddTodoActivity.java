@@ -11,7 +11,6 @@ import android.widget.LinearLayout;
 
 import com.application.hasaker.Adapter.AddToDoAdapter;
 import com.application.hasaker.DB.Food;
-import com.application.hasaker.Module.Database;
 import com.application.hasaker.R;
 import com.application.hasaker.RecyclerViewItemTouchHelperCallback;
 
@@ -21,8 +20,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class AddTodoActivity extends AppCompatActivity {
-
-    SQLiteDatabase db = LitePal.getDatabase();
 
     private RecyclerView.Adapter foodAdapter;
     private RecyclerView.LayoutManager foodLayoutManager;

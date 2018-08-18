@@ -1,6 +1,7 @@
 package com.application.hasaker;
 
 import android.graphics.Color;
+import android.graphics.RectF;
 import android.support.annotation.NonNull;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -8,17 +9,28 @@ import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.helper.ItemTouchHelper;
 
 
+//enum ButtonState {
+//    GONE,
+//    LEFT_VISIBLE,
+//    RIGHT_VISIBLE
+//}
+
 public class RecyclerViewItemTouchHelperCallback extends ItemTouchHelper.Callback {
 
     private final ItemTouchHelperCallback helperCallback;
+//    private boolean swipeBack = false;
+//    private ButtonState buttonShowedState = ButtonState.GONE;
+//    private RectF buttonInstance = null;
+//    private RecyclerView.ViewHolder currentViewHolder = null;
+//    private SwipeControllerActions buttonActions = null;
+//    private static final float buttonWidth = 300;
 
     public RecyclerViewItemTouchHelperCallback(ItemTouchHelperCallback helperCallback) {
         this.helperCallback = helperCallback;
     }
 
     @Override
-    public int getMovementFlags(@NonNull RecyclerView recyclerView,
-                                @NonNull RecyclerView.ViewHolder viewHolder) {
+    public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
         int dragFlags;
         int swipeFlags = 0;
 
@@ -29,7 +41,7 @@ public class RecyclerViewItemTouchHelperCallback extends ItemTouchHelper.Callbac
             dragFlags = ItemTouchHelper.UP | ItemTouchHelper.DOWN;
 
         if (viewHolder.getAdapterPosition() != 0)
-            swipeFlags = ItemTouchHelper.START | ItemTouchHelper.END;
+            swipeFlags = ItemTouchHelper.START;
         }
 
         return makeMovementFlags(dragFlags, swipeFlags);
@@ -57,6 +69,7 @@ public class RecyclerViewItemTouchHelperCallback extends ItemTouchHelper.Callbac
     public void onSwiped(@NonNull RecyclerView.ViewHolder viewHolder, int direction) {
         helperCallback.onItemDelete(viewHolder.getAdapterPosition());
     }
+
 
     @Override
     public void onSelectedChanged(RecyclerView.ViewHolder viewHolder, int actionState) {
