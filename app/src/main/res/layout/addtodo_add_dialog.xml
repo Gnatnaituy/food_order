@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.v7.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginTop="8dp"
+    android:layout_marginStart="2dp"
+    android:layout_marginEnd="2dp"
+    app:cardElevation="2dp"
+    app:cardMaxElevation="2dp"
+    app:cardCornerRadius="4dp"
+    app:cardPreventCornerOverlap="true">
+
+    <LinearLayout
+        android:orientation="vertical"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginStart="8dp"
+            android:gravity="center_horizontal"
+            android:text="重庆小面"
+            android:textStyle="bold"
+            android:textSize="28sp"/>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:text="数量"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="25dp"/>
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="20dp">
+
+            <RadioButton
+                android:layout_marginEnd="10dp"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:button="@null"
+                android:textAlignment="center"
+                android:textColor="@drawable/comment_stu_tv_bg"
+                android:background="@drawable/comment_stu_bg"
+                android:text="1"
+                android:textSize="18sp"/>
+
+            <RadioButton
+                android:layout_marginEnd="10dp"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:button="@null"
+                android:textAlignment="center"
+                android:textColor="@drawable/comment_stu_tv_bg"
+                android:background="@drawable/comment_stu_bg"
+                android:text="2"
+                android:textSize="18sp"/>
+
+            <RadioButton
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:button="@null"
+                android:textAlignment="center"
+                android:textColor="@drawable/comment_stu_tv_bg"
+                android:background="@drawable/comment_stu_bg"
+                android:text="3"
+                android:textSize="18sp"/>
+
+        </RadioGroup>
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="start"
+            android:text="辣度"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="20dp"/>
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:fillViewport="false"
+            android:scrollbars="none">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <RadioGroup
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="horizontal"
+                    android:layout_marginStart="20dp">
+
+                    <RadioButton
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="60dp"
+                        android:layout_height="40dp"
+                        android:button="@null"
+                        android:textAlignment="center"
+                        android:textColor="@drawable/comment_stu_tv_bg"
+                        android:background="@drawable/comment_stu_bg"
+                        android:text="不辣"
+                        android:textSize="18sp"/>
+
+                    <RadioButton
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="60dp"
+                        android:layout_height="40dp"
+                        android:button="@null"
+                        android:textAlignment="center"
+                        android:textColor="@drawable/comment_stu_tv_bg"
+                        android:background="@drawable/comment_stu_bg"
+                        android:text="中辣"
+                        android:textSize="18sp"/>
+
+                    <RadioButton
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="60dp"
+                        android:layout_height="40dp"
+                        android:button="@null"
+                        android:textAlignment="center"
+                        android:textColor="@drawable/comment_stu_tv_bg"
+                        android:background="@drawable/comment_stu_bg"
+                        android:text="超辣"
+                        android:textSize="18sp"/>
+
+                    <RadioButton
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="60dp"
+                        android:layout_height="40dp"
+                        android:button="@null"
+                        android:textAlignment="center"
+                        android:textColor="@drawable/comment_stu_tv_bg"
+                        android:background="@drawable/comment_stu_bg"
+                        android:text="麻辣"
+                        android:textSize="18sp"/>
+
+                    <RadioButton
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:button="@null"
+                        android:textAlignment="center"
+                        android:textColor="@drawable/comment_stu_tv_bg"
+                        android:background="@drawable/comment_stu_bg"
+                        android:text="中麻辣"
+                        android:textSize="18sp"/>
+
+                    <RadioButton
+                        android:layout_marginEnd="10dp"
+                        android:layout_width="80dp"
+                        android:layout_height="40dp"
+                        android:button="@null"
+                        android:textAlignment="center"
+                        android:textColor="@drawable/comment_stu_tv_bg"
+                        android:background="@drawable/comment_stu_bg"
+                        android:text="超麻辣"
+                        android:textSize="18sp"/>
+
+                </RadioGroup>
+
+            </LinearLayout>
+
+        </HorizontalScrollView>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:orientation="horizontal"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:layout_marginTop="40dp"
+            style="?android:attr/buttonBarStyle">
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="取消"
+                android:textSize="18sp"
+                android:textColor="#404040"
+                style="?android:buttonBarButtonStyle"/>
+
+            <Button
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="保存"
+                android:textSize="18sp"
+                android:textColor="#404040"
+                style="?android:buttonBarButtonStyle"/>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+</android.support.v7.widget.CardView>

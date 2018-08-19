@@ -31,7 +31,7 @@ public class ItemSwipeController extends ItemTouchHelper.Callback {
 
     private SwipeControllerActions buttonsActions = null;
 
-    private static final float buttonWidth = 300;
+    private static final float buttonWidth = 200;
 
     public ItemSwipeController(SwipeControllerActions buttonsActions) {
         this.buttonsActions = buttonsActions;
@@ -39,7 +39,7 @@ public class ItemSwipeController extends ItemTouchHelper.Callback {
 
     @Override
     public int getMovementFlags(@NonNull RecyclerView recyclerView, @NonNull RecyclerView.ViewHolder viewHolder) {
-        return makeMovementFlags(0, LEFT | RIGHT);
+        return makeMovementFlags(0, LEFT);
     }
 
     @Override
@@ -158,7 +158,7 @@ public class ItemSwipeController extends ItemTouchHelper.Callback {
 
     private void drawButtons(Canvas c, RecyclerView.ViewHolder viewHolder) {
         float buttonWidthWithoutPadding = buttonWidth - 20;
-        float corners = 16;
+        float corners = 8;
 
         View itemView = viewHolder.itemView;
         Paint p = new Paint();
@@ -167,13 +167,13 @@ public class ItemSwipeController extends ItemTouchHelper.Callback {
                 itemView.getLeft() + buttonWidthWithoutPadding, itemView.getBottom());
         p.setColor(Color.BLUE);
         c.drawRoundRect(leftButton, corners, corners, p);
-        drawText("EDIT", c, leftButton, p);
+        drawText("编辑", c, leftButton, p);
 
         RectF rightButton = new RectF(itemView.getRight() - buttonWidthWithoutPadding,
                 itemView.getTop(), itemView.getRight(), itemView.getBottom());
         p.setColor(Color.RED);
         c.drawRoundRect(rightButton, corners, corners, p);
-        drawText("DELETE", c, rightButton, p);
+        drawText("删除", c, rightButton, p);
 
         buttonInstance = null;
         if (buttonShowedState == ButtonsState.LEFT_VISIBLE) {
@@ -185,7 +185,7 @@ public class ItemSwipeController extends ItemTouchHelper.Callback {
     }
 
     private void drawText(String text, Canvas c, RectF button, Paint p) {
-        float textSize = 60;
+        float textSize = 42;
         p.setColor(Color.WHITE);
         p.setAntiAlias(true);
         p.setTextSize(textSize);

@@ -9,6 +9,7 @@ import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.Toolbar;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.text.TextUtils;
 import android.view.View;
@@ -25,6 +26,7 @@ import com.application.hasaker.R;
 import org.litepal.LitePal;
 
 import java.util.List;
+import java.util.Objects;
 
 
 public class CategoryActivity extends AppCompatActivity {
@@ -37,7 +39,11 @@ public class CategoryActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("菜品管理");
         setContentView(R.layout.category_activity);
+
+        Toolbar toolbar = findViewById(R.id.toolbar_category);
+        setSupportActionBar(toolbar);
 
         FloatingActionButton add_button = findViewById(R.id.add_category);
         add_button.setOnClickListener(new View.OnClickListener() {
@@ -52,11 +58,7 @@ public class CategoryActivity extends AppCompatActivity {
     }
 
     private void initData(){
-//        List<Food> mFoodList = new ArrayList<>();
-//        foodAdapter = new CategoryAdapter(getData());
-//        foodLayoutManager = new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false);
         List<Food> mFoodList = LitePal.findAll(Food.class);
-
         foodAdapter = new CategoryAdapter(mFoodList);
     }
 
@@ -65,11 +67,6 @@ public class CategoryActivity extends AppCompatActivity {
         foodRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         foodRecyclerView.setAdapter(foodAdapter);
         foodRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-//        ItemTouchHelper.Callback callback = new RecyclerViewItemTouchHelperCallback(
-//                (RecyclerViewItemTouchHelperCallback.ItemTouchHelperCallback) foodAdapter);
-//        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(callback);
-//        itemTouchHelper.attachToRecyclerView(foodRecyclerView);
 
         itemSwipeController = new ItemSwipeController(new SwipeControllerActions() {
             @Override
@@ -101,6 +98,7 @@ public class CategoryActivity extends AppCompatActivity {
         final AlertDialog dialog = builder.create();
         View dialogView = View.inflate(CategoryActivity.this, R.layout.category_add_dialog, null);
         dialog.setView(dialogView);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
         dialog.setCancelable(true);
         dialog.setCanceledOnTouchOutside(false);
         dialog.show();
@@ -119,6 +117,7 @@ public class CategoryActivity extends AppCompatActivity {
                     food.setName(etName.getText().toString());
                     food.save();
                     dialog.dismiss();
+                    foodAdapter.addItem(food, 0);
                     Toast.makeText(CategoryActivity.this, "添加成功", Toast.LENGTH_LONG).show();
                 }
             }

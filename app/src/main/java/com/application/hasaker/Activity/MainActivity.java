@@ -19,6 +19,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        setTitle("等待完成的订单");
         setContentView(R.layout.main_activity);
 
         LitePal.initialize(this);

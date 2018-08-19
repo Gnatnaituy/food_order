@@ -17,6 +17,10 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.FoodVi
 
     public List<Food> foodList;
 
+    public CategoryAdapter(List<Food> data)  {
+        this.foodList = data;
+    }
+
     class FoodViewHolder extends RecyclerView.ViewHolder {
         private TextView name;
          FoodViewHolder(View view) {
@@ -24,15 +28,6 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.FoodVi
              name = view.findViewById(R.id.category_food_item);
          }
     }
-
-    public CategoryAdapter(List<Food> data)  {
-        this.foodList = data;
-    }
-
-//    public void updateData(List<Food> data) {
-//        this.foodList = data;
-//        notifyDataSetChanged();
-//    }
 
     @NonNull
     @Override
@@ -50,6 +45,11 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.FoodVi
     @Override
     public int getItemCount() {
         return foodList == null ? 0 : foodList.size();
+    }
+
+    public void addItem(Food item, int position) {
+        this.foodList.add(position, item);
+        notifyItemInserted(position);
     }
 
 //    @Override
