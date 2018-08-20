@@ -1,20 +1,41 @@
 package com.application.hasaker.Activity;
 
 import android.content.Intent;
+import android.graphics.Canvas;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.LinearLayout;
 import android.widget.Toast;
 
+import com.application.hasaker.Adapter.AddToDoAdapter;
+import com.application.hasaker.Adapter.ToDoAdapter;
+import com.application.hasaker.DB.Food;
+import com.application.hasaker.DB.Todo;
+import com.application.hasaker.ItemSwipeController;
 import com.application.hasaker.R;
+import com.application.hasaker.SwipeControllerActions;
 
 import org.litepal.LitePal;
 
+import java.util.List;
+
+
 public class MainActivity extends AppCompatActivity {
+
+    private ToDoAdapter toDoAdapter;
+
+    ItemSwipeController itemSwipeController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -33,6 +54,49 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(MainActivity.this, AddTodoActivity.class);
                 startActivity(intent);
+            }
+        });
+
+        initData();
+        initView();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        initData();
+        initView();
+    }
+
+    private void initData() {
+        List<Todo> mToDoList = LitePal.findAll(Todo.class);
+        toDoAdapter = new ToDoAdapter(mToDoList);
+    }
+
+    private void initView() {
+        RecyclerView foodRecyclerView = findViewById(R.id.todo_list);
+        foodRecyclerView.setAdapter(toDoAdapter);
+        foodRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
+        foodRecyclerView.setItemAnimator(new DefaultItemAnimator());
+
+        itemSwipeController = new ItemSwipeController(new SwipeControllerActions() {
+            @Override
+            public void onRightClicked(int position) {
+                Todo todo = toDoAdapter.todoList.get(position);
+                todo.delete();
+                toDoAdapter.todoList.remove(position);
+                toDoAdapter.notifyItemRemoved(position);
+                toDoAdapter.notifyItemRangeChanged(position, toDoAdapter.getItemCount());
+            }
+        });
+
+        final ItemTouchHelper itemTouchhelper = new ItemTouchHelper(itemSwipeController);
+        itemTouchhelper.attachToRecyclerView(foodRecyclerView);
+
+        foodRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+            @Override
+            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+                itemSwipeController.onDraw(c);
             }
         });
     }
@@ -54,7 +118,8 @@ public class MainActivity extends AppCompatActivity {
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_all_clear) {
-            Toast.makeText(this, "Action All Clear", Toast.LENGTH_LONG).show();
+            LitePal.deleteAll(Todo.class);
+            toDoAdapter.clear();
         } else if (id == R.id.go_to_category) {
             Intent intent = new Intent(MainActivity.this, CategoryActivity.class);
             startActivity(intent);

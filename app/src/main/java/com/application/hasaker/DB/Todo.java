@@ -6,11 +6,17 @@ import org.litepal.crud.LitePalSupport;
 public class Todo extends LitePalSupport {
 
     @Column(unique = true, defaultValue = "unknown")
+    private int id;
+
     private String name;
 
-    private int peppery;
+    private String peppery;
 
-    private int count;
+    private String count;
+
+    private int getId() {
+        return id;
+    }
 
     public String getName() {
         return name;
@@ -20,19 +26,19 @@ public class Todo extends LitePalSupport {
         this.name = name;
     }
 
-    public int getPeppery() {
+    public String getPeppery() {
         return peppery;
     }
 
-    public void setPeppery(int peppery) {
+    public void setPeppery(String peppery) {
         this.peppery = peppery;
     }
 
-    public int getCount() {
+    public String getCount() {
         return count;
     }
 
-    public void setCount(int count) {
+    public void setCount(String count) {
         this.count = count;
     }
 }

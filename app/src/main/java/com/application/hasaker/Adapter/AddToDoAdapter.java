@@ -16,24 +16,37 @@ import java.util.List;
 public class AddToDoAdapter extends RecyclerView.Adapter<AddToDoAdapter.AddToDoViewHolder> {
 
     public List<Food> foodList;
+    private onRecyclerViewItemClickListener mItemClickListener;
 
-    public interface AddToDoClick {
-        void click();
+    public void setOnItemClickListener(onRecyclerViewItemClickListener mItemClickListener) {
+        this.mItemClickListener = mItemClickListener;
     }
 
-    private AddToDoClick mListener;
+    public interface onRecyclerViewItemClickListener {
+        void onItemClickListener(View view, int position);
+    }
 
-    public AddToDoAdapter(List<Food> data, AddToDoClick listener)  {
+    public AddToDoAdapter(List<Food> data)  {
         this.foodList = data;
-        mListener = listener;
     }
 
-    class AddToDoViewHolder extends RecyclerView.ViewHolder {
+    class AddToDoViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
         private TextView name;
+        private FloatingActionButton button;
 
         AddToDoViewHolder(View view) {
             super(view);
             name = view.findViewById(R.id.addtodo_food_item);
+            button = view.findViewById(R.id.add);
+
+            button.setOnClickListener(this);
+        }
+
+        @Override
+        public void onClick(View v) {
+            if (mItemClickListener != null) {
+                mItemClickListener.onItemClickListener(v, getAdapterPosition());
+            }
         }
     }
 
@@ -41,13 +54,6 @@ public class AddToDoAdapter extends RecyclerView.Adapter<AddToDoAdapter.AddToDoV
     @Override
     public AddToDoViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.addtodo_item, parent, false);
-        FloatingActionButton add = view.findViewById(R.id.add);
-        add.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                mListener.click();
-            }
-        });
 
         return new AddToDoViewHolder(view);
     }

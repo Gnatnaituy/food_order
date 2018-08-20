@@ -51,34 +51,4 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.FoodVi
         this.foodList.add(position, item);
         notifyItemInserted(position);
     }
-
-//    @Override
-//    public void onItemDelete(int position) {
-//        foodList.remove(position);
-//        notifyItemRemoved(position);
-//    }
-//
-//    @Override
-//    public void onMove(int fromPosition, int toPosition) {
-//        if (fromPosition < toPosition) {
-//            for (int i = fromPosition; i < toPosition; i++) {
-//                Collections.swap(foodList, i, i + 1);
-//            }
-//        } else {
-//            for (int i = fromPosition; i > toPosition; i--) {
-//                Collections.swap(foodList, i, i - 1);
-//            }
-//        }
-//        Collections.swap(foodList, fromPosition, toPosition);
-//        notifyItemMoved(fromPosition, toPosition);
-//    }
-
-//    static class ViewHolder extends RecyclerView.ViewHolder {
-//        TextView textView;
-//
-//        ViewHolder(View itemView) {
-//            super(itemView);
-//            textView = itemView.findViewById(R.id.category_food_item);
-//        }
-//    }
 }

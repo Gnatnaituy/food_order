@@ -163,11 +163,11 @@ public class ItemSwipeController extends ItemTouchHelper.Callback {
         View itemView = viewHolder.itemView;
         Paint p = new Paint();
 
-        RectF leftButton = new RectF(itemView.getLeft(), itemView.getTop(),
-                itemView.getLeft() + buttonWidthWithoutPadding, itemView.getBottom());
-        p.setColor(Color.BLUE);
-        c.drawRoundRect(leftButton, corners, corners, p);
-        drawText("编辑", c, leftButton, p);
+//        RectF leftButton = new RectF(itemView.getLeft(), itemView.getTop(),
+//                itemView.getLeft() + buttonWidthWithoutPadding, itemView.getBottom());
+//        p.setColor(Color.BLUE);
+//        c.drawRoundRect(leftButton, corners, corners, p);
+//        drawText("编辑", c, leftButton, p);
 
         RectF rightButton = new RectF(itemView.getRight() - buttonWidthWithoutPadding,
                 itemView.getTop(), itemView.getRight(), itemView.getBottom());
@@ -175,13 +175,15 @@ public class ItemSwipeController extends ItemTouchHelper.Callback {
         c.drawRoundRect(rightButton, corners, corners, p);
         drawText("删除", c, rightButton, p);
 
-        buttonInstance = null;
-        if (buttonShowedState == ButtonsState.LEFT_VISIBLE) {
-            buttonInstance = leftButton;
-        }
-        else if (buttonShowedState == ButtonsState.RIGHT_VISIBLE) {
-            buttonInstance = rightButton;
-        }
+//        buttonInstance = null;
+//        if (buttonShowedState == ButtonsState.LEFT_VISIBLE) {
+//            buttonInstance = leftButton;
+//        }
+//        else if (buttonShowedState == ButtonsState.RIGHT_VISIBLE) {
+//            buttonInstance = rightButton;
+//        }
+
+        buttonInstance = rightButton;
     }
 
     private void drawText(String text, Canvas c, RectF button, Paint p) {

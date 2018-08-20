@@ -19,6 +19,7 @@
         android:layout_height="match_parent">
 
         <TextView
+            android:id="@+id/dialog_food_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -37,6 +38,7 @@
             android:layout_marginTop="25dp"/>
 
         <RadioGroup
+            android:id="@+id/radiogroup_count"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
@@ -44,6 +46,7 @@
             android:layout_marginStart="20dp">
 
             <RadioButton
+                android:id="@+id/count_1"
                 android:layout_marginEnd="10dp"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
@@ -55,6 +58,7 @@
                 android:textSize="18sp"/>
 
             <RadioButton
+                android:id="@+id/count_2"
                 android:layout_marginEnd="10dp"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
@@ -66,6 +70,7 @@
                 android:textSize="18sp"/>
 
             <RadioButton
+                android:id="@+id/count_3"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
                 android:button="@null"
@@ -99,12 +104,14 @@
                 android:orientation="horizontal">
 
                 <RadioGroup
+                    android:id="@+id/radiogroup_peppery"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:orientation="horizontal"
                     android:layout_marginStart="20dp">
 
                     <RadioButton
+                        android:id="@+id/peppery_1"
                         android:layout_marginEnd="10dp"
                         android:layout_width="60dp"
                         android:layout_height="40dp"
@@ -116,6 +123,7 @@
                         android:textSize="18sp"/>
 
                     <RadioButton
+                        android:id="@+id/peppery_2"
                         android:layout_marginEnd="10dp"
                         android:layout_width="60dp"
                         android:layout_height="40dp"
@@ -127,6 +135,7 @@
                         android:textSize="18sp"/>
 
                     <RadioButton
+                        android:id="@+id/peppery_3"
                         android:layout_marginEnd="10dp"
                         android:layout_width="60dp"
                         android:layout_height="40dp"
@@ -138,6 +147,7 @@
                         android:textSize="18sp"/>
 
                     <RadioButton
+                        android:id="@+id/peppery_4"
                         android:layout_marginEnd="10dp"
                         android:layout_width="60dp"
                         android:layout_height="40dp"
@@ -149,6 +159,7 @@
                         android:textSize="18sp"/>
 
                     <RadioButton
+                        android:id="@+id/peppery_5"
                         android:layout_marginEnd="10dp"
                         android:layout_width="80dp"
                         android:layout_height="40dp"
@@ -160,6 +171,7 @@
                         android:textSize="18sp"/>
 
                     <RadioButton
+                        android:id="@+id/peppery_6"
                         android:layout_marginEnd="10dp"
                         android:layout_width="80dp"
                         android:layout_height="40dp"
@@ -187,6 +199,7 @@
             style="?android:attr/buttonBarStyle">
 
             <Button
+                android:id="@+id/addtodo_dialog_cancel"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
@@ -196,10 +209,11 @@
                 style="?android:buttonBarButtonStyle"/>
 
             <Button
+                android:id="@+id/addtodo_dialog_add"
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:text="保存"
+                android:text="添加"
                 android:textSize="18sp"
                 android:textColor="#404040"
                 style="?android:buttonBarButtonStyle"/>

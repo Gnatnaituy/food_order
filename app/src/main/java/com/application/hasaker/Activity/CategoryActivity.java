@@ -35,7 +35,6 @@ public class CategoryActivity extends AppCompatActivity {
 
     ItemSwipeController itemSwipeController;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -64,8 +63,8 @@ public class CategoryActivity extends AppCompatActivity {
 
     private void initView() {
         RecyclerView foodRecyclerView = findViewById(R.id.category_list);
-        foodRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         foodRecyclerView.setAdapter(foodAdapter);
+        foodRecyclerView.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL, false));
         foodRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         itemSwipeController = new ItemSwipeController(new SwipeControllerActions() {
