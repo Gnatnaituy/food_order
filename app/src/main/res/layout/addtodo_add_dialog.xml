@@ -71,6 +71,7 @@
 
             <RadioButton
                 android:id="@+id/count_3"
+                android:layout_marginEnd="10dp"
                 android:layout_width="60dp"
                 android:layout_height="40dp"
                 android:button="@null"
@@ -78,6 +79,29 @@
                 android:textColor="@drawable/comment_stu_tv_bg"
                 android:background="@drawable/comment_stu_bg"
                 android:text="3"
+                android:textSize="18sp"/>
+
+            <RadioButton
+                android:id="@+id/count_4"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:layout_marginEnd="10dp"
+                android:button="@null"
+                android:textAlignment="center"
+                android:textColor="@drawable/comment_stu_tv_bg"
+                android:background="@drawable/comment_stu_bg"
+                android:text="4"
+                android:textSize="18sp"/>
+
+            <RadioButton
+                android:id="@+id/count_5"
+                android:layout_width="60dp"
+                android:layout_height="40dp"
+                android:button="@null"
+                android:textAlignment="center"
+                android:textColor="@drawable/comment_stu_tv_bg"
+                android:background="@drawable/comment_stu_bg"
+                android:text="5"
                 android:textSize="18sp"/>
 
         </RadioGroup>

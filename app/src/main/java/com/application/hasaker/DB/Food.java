@@ -6,9 +6,9 @@ import org.litepal.crud.LitePalSupport;
 public class Food extends LitePalSupport {
 
     @Column(unique = true, defaultValue = "unknown", nullable = false)
-    private String name;
-
     private int id;
+
+    private String name;
 
     public int getId() {
         return id;
