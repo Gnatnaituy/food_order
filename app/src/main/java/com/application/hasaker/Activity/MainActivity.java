@@ -6,6 +6,9 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
@@ -21,6 +24,8 @@ import android.view.MenuItem;
 
 import com.application.hasaker.Adapter.ToDoAdapter;
 import com.application.hasaker.DB.Todo;
+import com.application.hasaker.Fragment.CategoryFragment;
+import com.application.hasaker.Fragment.CondimentFragment;
 import com.application.hasaker.ItemSwipeController;
 import com.application.hasaker.R;
 import com.application.hasaker.SwipeControllerActions;
@@ -30,10 +35,11 @@ import org.litepal.LitePal;
 import java.util.List;
 
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends AppCompatActivity {
 
+    private DrawerLayout drawerLayout;
     private ToDoAdapter toDoAdapter;
+    private CondimentFragment condimentFragment;
 
     ItemSwipeController itemSwipeController;
 
@@ -48,7 +54,6 @@ public class MainActivity extends AppCompatActivity
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-
         FloatingActionButton fab = findViewById(R.id.add_to_do);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -58,14 +63,61 @@ public class MainActivity extends AppCompatActivity
             }
         });
 
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
-                this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
 
         NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+                FragmentManager fragmentManager = getSupportFragmentManager();
+                // check if the item is in checked state or not, if not make it in checked state
+                if (menuItem.isChecked()) menuItem.setChecked(false);
+                else menuItem.setChecked(true);
+                // close drawer on item click
+                drawerLayout.closeDrawers();
+                // check to see which item was been clicked and preform appropriate action
+                switch (menuItem.getItemId()) {
+                    case R.id.nav_todo:
+                        return true;
+                    case R.id.nav_category:
+                        return true;
+                    case R.id.nav_condiment:
+                        CondimentFragment condimentFragment = new CondimentFragment();
+                        fragmentManager.beginTransaction().replace(R.id.fragment_container, condimentFragment)
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                .addToBackStack(null)
+                                .commit();
+                        return true;
+                    case R.id.nav_about:
+                        return true;
+                    default:
+                        return true;
+                }
+            }
+        });
+        
+
+        drawerLayout = findViewById(R.id.drawer_layout);
+        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
+                this, drawerLayout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close) {
+            @Override
+            public void onDrawerClosed(View drawerView) {
+                super.onDrawerClosed(drawerView);
+            }
+
+            @Override
+            public void onDrawerOpened(View drawerView) {
+                super.onDrawerOpened(drawerView);
+            }
+        };
+        drawerLayout.addDrawerListener(toggle);
+        toggle.syncState();
+
+
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        CategoryFragment categoryFragment = new CategoryFragment();
+//        fragmentTransaction.replace(R.id.fragment_container, categoryFragment);
+//        fragmentTransaction.commit();
 
         initData();
         initView();
@@ -144,26 +196,27 @@ public class MainActivity extends AppCompatActivity
 
         return super.onOptionsItemSelected(item);
     }
-
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        // Handle navigation view item clicks here.
-        int id = item.getItemId();
-
-        if  (id == R.id.nav_todo) {
-
-        } else if (id == R.id.nav_category) {
-            Intent intent = new Intent(MainActivity.this, CategoryActivity.class);
-            startActivity(intent);
-        } else if (id == R.id.nav_condiment) {
-
-        } else if (id == R.id.nav_about) {
-
-        }
-
-        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
-    }
+//
+//    @SuppressWarnings("StatementWithEmptyBody")
+//    @Override
+//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+//        // Handle navigation view item clicks here.
+//        int id = item.getItemId();
+//
+//        if  (id == R.id.nav_todo) {
+//
+//
+//        } else if (id == R.id.nav_category) {
+//            Intent intent = new Intent(MainActivity.this, CategoryActivity.class);
+//            startActivity(intent);
+//        } else if (id == R.id.nav_condiment) {
+//
+//        } else if (id == R.id.nav_about) {
+//
+//        }
+//
+//        DrawerLayout drawer = findViewById(R.id.drawer_layout);
+//        drawer.closeDrawer(GravityCompat.START);
+//        return true;
+//    }
 }
