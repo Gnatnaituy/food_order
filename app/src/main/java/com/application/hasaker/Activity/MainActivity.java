@@ -6,7 +6,6 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
@@ -24,8 +23,10 @@ import android.view.MenuItem;
 
 import com.application.hasaker.Adapter.ToDoAdapter;
 import com.application.hasaker.DB.Todo;
+import com.application.hasaker.Fragment.AboutFragment;
 import com.application.hasaker.Fragment.CategoryFragment;
 import com.application.hasaker.Fragment.CondimentFragment;
+import com.application.hasaker.Fragment.TodoFragment;
 import com.application.hasaker.ItemSwipeController;
 import com.application.hasaker.R;
 import com.application.hasaker.SwipeControllerActions;
@@ -39,14 +40,12 @@ public class MainActivity extends AppCompatActivity {
 
     private DrawerLayout drawerLayout;
     private ToDoAdapter toDoAdapter;
-    private CondimentFragment condimentFragment;
-
     ItemSwipeController itemSwipeController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle("等待完成的订单");
+        setTitle(R.string.title_main);
         setContentView(R.layout.main_activity);
 
         LitePal.initialize(this);
@@ -64,22 +63,45 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        FragmentManager fragmentManager = getSupportFragmentManager();
+        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+        TodoFragment todoFragment = new TodoFragment();
+        fragmentTransaction.replace(R.id.fragment_container, todoFragment);
+        fragmentTransaction.commit();
+
+
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
                 FragmentManager fragmentManager = getSupportFragmentManager();
                 // check if the item is in checked state or not, if not make it in checked state
-                if (menuItem.isChecked()) menuItem.setChecked(false);
-                else menuItem.setChecked(true);
+                if (menuItem.isChecked()) {
+                    menuItem.setChecked(false);
+                } else {
+                    menuItem.setChecked(true);
+                }
                 // close drawer on item click
                 drawerLayout.closeDrawers();
                 // check to see which item was been clicked and preform appropriate action
                 switch (menuItem.getItemId()) {
+
                     case R.id.nav_todo:
+                        TodoFragment todoFragment = new TodoFragment();
+                        fragmentManager.beginTransaction().replace(R.id.fragment_container, todoFragment)
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                .addToBackStack(null)
+                                .commit();
                         return true;
+
                     case R.id.nav_category:
+                        CategoryFragment categoryFragment = new CategoryFragment();
+                        fragmentManager.beginTransaction().replace(R.id.fragment_container, categoryFragment)
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                .addToBackStack(null)
+                                .commit();
                         return true;
+
                     case R.id.nav_condiment:
                         CondimentFragment condimentFragment = new CondimentFragment();
                         fragmentManager.beginTransaction().replace(R.id.fragment_container, condimentFragment)
@@ -87,14 +109,28 @@ public class MainActivity extends AppCompatActivity {
                                 .addToBackStack(null)
                                 .commit();
                         return true;
+
                     case R.id.nav_about:
+                        AboutFragment aboutFragment = new AboutFragment();
+                        fragmentManager.beginTransaction().replace(R.id.fragment_container, aboutFragment)
+                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
+                                .addToBackStack(null)
+                                .commit();
                         return true;
+
                     default:
                         return true;
                 }
             }
         });
-        
+
+
+//        FragmentManager fragmentManager = getSupportFragmentManager();
+//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+//        TodoFragment todoFragment = new TodoFragment();
+//        fragmentTransaction.replace(R.id.fragment_container, todoFragment);
+//        fragmentTransaction.commit();
+
 
         drawerLayout = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -112,12 +148,6 @@ public class MainActivity extends AppCompatActivity {
         drawerLayout.addDrawerListener(toggle);
         toggle.syncState();
 
-
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        CategoryFragment categoryFragment = new CategoryFragment();
-//        fragmentTransaction.replace(R.id.fragment_container, categoryFragment);
-//        fragmentTransaction.commit();
 
         initData();
         initView();
@@ -196,7 +226,8 @@ public class MainActivity extends AppCompatActivity {
 
         return super.onOptionsItemSelected(item);
     }
-//
+
+
 //    @SuppressWarnings("StatementWithEmptyBody")
 //    @Override
 //    public boolean onNavigationItemSelected(@NonNull MenuItem item) {

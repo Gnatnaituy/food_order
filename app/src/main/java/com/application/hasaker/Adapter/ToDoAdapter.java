@@ -7,7 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.application.hasaker.DB.Food;
 import com.application.hasaker.DB.Todo;
 import com.application.hasaker.R;
 
@@ -38,7 +37,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.FoodViewHolder
     @NonNull
     @Override
     public FoodViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.main_item, parent, false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.todo_item, parent, false);
         return new FoodViewHolder(view);
     }
 
