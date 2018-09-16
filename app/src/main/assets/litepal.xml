@@ -6,5 +6,6 @@
     <list>
         <mapping class="com.application.hasaker.DB.Food" />
         <mapping class="com.application.hasaker.DB.Todo" />
+        <mapping class="com.application.hasaker.DB.Condiment"/>
     </list>
 </litepal>

@@ -8,17 +8,17 @@ public class Condiment extends LitePalSupport {
     @Column(unique = true, defaultValue = "unknown", nullable = false)
     private int id;
 
-    private String tagName;
+    private String Name;
 
     public int getId() {
         return id;
     }
 
-    public String getTagName() {
-        return tagName;
+    public String getName() {
+        return Name;
     }
 
-    public void setTagName(String tagName) {
-        this.tagName = tagName;
+    public void setName(String Name) {
+        this.Name = Name;
     }
 }

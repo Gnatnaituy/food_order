@@ -25,7 +25,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.FoodVi
         private TextView name;
          FoodViewHolder(View view) {
              super(view);
-             name = view.findViewById(R.id.category_food_item);
+             name = view.findViewById(R.id.category_item);
          }
     }
 

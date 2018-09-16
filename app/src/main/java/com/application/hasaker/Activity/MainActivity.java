@@ -1,51 +1,62 @@
 package com.application.hasaker.Activity;
 
+
 import android.content.Intent;
-import android.graphics.Canvas;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
-import android.support.v4.app.FragmentManager;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.support.v7.widget.helper.ItemTouchHelper;
+import android.text.TextUtils;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
+import com.application.hasaker.Adapter.CategoryAdapter;
+import com.application.hasaker.Adapter.CondimentAdapter;
 import com.application.hasaker.Adapter.ToDoAdapter;
+import com.application.hasaker.DB.Condiment;
+import com.application.hasaker.DB.Food;
 import com.application.hasaker.DB.Todo;
 import com.application.hasaker.Fragment.AboutFragment;
 import com.application.hasaker.Fragment.CategoryFragment;
 import com.application.hasaker.Fragment.CondimentFragment;
 import com.application.hasaker.Fragment.TodoFragment;
-import com.application.hasaker.ItemSwipeController;
 import com.application.hasaker.R;
-import com.application.hasaker.SwipeControllerActions;
 
 import org.litepal.LitePal;
 
-import java.util.List;
+import java.util.Objects;
 
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
+
+
+    private static final String FRAGMENT_TODO = "todo";
+    private static final String FRAGMENT_CATEGORY = "category";
+    private static final String FRAGMENT_CONDIMENT = "condiment";
+    private static final String FRAGMENT_ABOUT = "about";
+    
+    private ToDoAdapter toDoAdapter;
+    private CategoryAdapter categoryAdapter;
+    private CondimentAdapter condimentAdapter;
 
     private DrawerLayout drawerLayout;
-    private ToDoAdapter toDoAdapter;
-    ItemSwipeController itemSwipeController;
+    public FloatingActionButton fabBtn;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setTitle(R.string.title_main);
         setContentView(R.layout.main_activity);
 
         LitePal.initialize(this);
@@ -53,84 +64,28 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = findViewById(R.id.add_to_do);
-        fab.setOnClickListener(new View.OnClickListener() {
+        fabBtn = findViewById(R.id.fabBtn);
+        fabBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(MainActivity.this, AddTodoActivity.class);
-                startActivity(intent);
-            }
-        });
-
-
-        FragmentManager fragmentManager = getSupportFragmentManager();
-        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-        TodoFragment todoFragment = new TodoFragment();
-        fragmentTransaction.replace(R.id.fragment_container, todoFragment);
-        fragmentTransaction.commit();
-
-
-        NavigationView navigationView = findViewById(R.id.nav_view);
-        navigationView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-            @Override
-            public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
-                FragmentManager fragmentManager = getSupportFragmentManager();
-                // check if the item is in checked state or not, if not make it in checked state
-                if (menuItem.isChecked()) {
-                    menuItem.setChecked(false);
-                } else {
-                    menuItem.setChecked(true);
-                }
-                // close drawer on item click
-                drawerLayout.closeDrawers();
-                // check to see which item was been clicked and preform appropriate action
-                switch (menuItem.getItemId()) {
-
-                    case R.id.nav_todo:
-                        TodoFragment todoFragment = new TodoFragment();
-                        fragmentManager.beginTransaction().replace(R.id.fragment_container, todoFragment)
-                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                                .addToBackStack(null)
-                                .commit();
-                        return true;
-
-                    case R.id.nav_category:
-                        CategoryFragment categoryFragment = new CategoryFragment();
-                        fragmentManager.beginTransaction().replace(R.id.fragment_container, categoryFragment)
-                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                                .addToBackStack(null)
-                                .commit();
-                        return true;
-
-                    case R.id.nav_condiment:
-                        CondimentFragment condimentFragment = new CondimentFragment();
-                        fragmentManager.beginTransaction().replace(R.id.fragment_container, condimentFragment)
-                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                                .addToBackStack(null)
-                                .commit();
-                        return true;
-
-                    case R.id.nav_about:
-                        AboutFragment aboutFragment = new AboutFragment();
-                        fragmentManager.beginTransaction().replace(R.id.fragment_container, aboutFragment)
-                                .setTransition(FragmentTransaction.TRANSIT_FRAGMENT_OPEN)
-                                .addToBackStack(null)
-                                .commit();
-                        return true;
-
+                Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+                String fragmentTag = Objects.requireNonNull(currentFragment).getTag();
+                switch (Objects.requireNonNull(fragmentTag)) {
+                    case FRAGMENT_TODO:
+                        Intent intent = new Intent(MainActivity.this, AddTodoActivity.class);
+                        startActivity(intent);
+                        break;
+                    case FRAGMENT_CATEGORY:
+                        addFood();
+                        break;
+                    case FRAGMENT_CONDIMENT:
+                        addCondiment();
+                        break;
                     default:
-                        return true;
+                        break;
                 }
             }
         });
-
-
-//        FragmentManager fragmentManager = getSupportFragmentManager();
-//        FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
-//        TodoFragment todoFragment = new TodoFragment();
-//        fragmentTransaction.replace(R.id.fragment_container, todoFragment);
-//        fragmentTransaction.commit();
-
 
         drawerLayout = findViewById(R.id.drawer_layout);
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(
@@ -149,49 +104,14 @@ public class MainActivity extends AppCompatActivity {
         toggle.syncState();
 
 
-        initData();
-        initView();
+        NavigationView navigationView = findViewById(R.id.nav_view);
+        navigationView.setNavigationItemSelectedListener(this);
+        navigationView.setCheckedItem(R.id.nav_todo);
+
+        Fragment fragment = new TodoFragment();
+        displaySelectedFragment(fragment, FRAGMENT_TODO);
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        initData();
-        initView();
-    }
-
-    private void initData() {
-        List<Todo> mToDoList = LitePal.findAll(Todo.class);
-        toDoAdapter = new ToDoAdapter(mToDoList);
-    }
-
-    private void initView() {
-        RecyclerView foodRecyclerView = findViewById(R.id.todo_list);
-        foodRecyclerView.setAdapter(toDoAdapter);
-        foodRecyclerView.setLayoutManager(new GridLayoutManager(this, 2));
-        foodRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        itemSwipeController = new ItemSwipeController(new SwipeControllerActions() {
-            @Override
-            public void onRightClicked(int position) {
-                Todo todo = toDoAdapter.todoList.get(position);
-                todo.delete();
-                toDoAdapter.todoList.remove(position);
-                toDoAdapter.notifyItemRemoved(position);
-                toDoAdapter.notifyItemRangeChanged(position, toDoAdapter.getItemCount());
-            }
-        });
-
-        final ItemTouchHelper itemTouchhelper = new ItemTouchHelper(itemSwipeController);
-        itemTouchhelper.attachToRecyclerView(foodRecyclerView);
-
-        foodRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-                itemSwipeController.onDraw(c);
-            }
-        });
-    }
 
     @Override
     public void onBackPressed() {
@@ -227,27 +147,132 @@ public class MainActivity extends AppCompatActivity {
         return super.onOptionsItemSelected(item);
     }
 
+    @SuppressWarnings("StatementWithEmptyBody")
+    @Override
+    public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
+        // Handle navigation view item clicks here.
+        // check if the item is in checked state or not, if not make it in checked state
+        if (menuItem.isChecked()) {
+            menuItem.setChecked(false);
+        } else {
+            menuItem.setChecked(true);
+        }
+        drawerLayout.closeDrawers();
 
-//    @SuppressWarnings("StatementWithEmptyBody")
-//    @Override
-//    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-//        // Handle navigation view item clicks here.
-//        int id = item.getItemId();
-//
-//        if  (id == R.id.nav_todo) {
-//
-//
-//        } else if (id == R.id.nav_category) {
-//            Intent intent = new Intent(MainActivity.this, CategoryActivity.class);
-//            startActivity(intent);
-//        } else if (id == R.id.nav_condiment) {
-//
-//        } else if (id == R.id.nav_about) {
-//
-//        }
-//
-//        DrawerLayout drawer = findViewById(R.id.drawer_layout);
-//        drawer.closeDrawer(GravityCompat.START);
-//        return true;
-//    }
+        // check to see which item was been clicked and preform appropriate action
+        switch (menuItem.getItemId()) {
+            case R.id.nav_todo:
+                TodoFragment todoFragment = new TodoFragment();
+                displaySelectedFragment(todoFragment, FRAGMENT_TODO);
+                return true;
+
+            case R.id.nav_category:
+                CategoryFragment categoryFragment = new CategoryFragment();
+                displaySelectedFragment(categoryFragment, FRAGMENT_CATEGORY);
+                return true;
+
+            case R.id.nav_condiment:
+                CondimentFragment condimentFragment = new CondimentFragment();
+                displaySelectedFragment(condimentFragment, FRAGMENT_CONDIMENT);
+                return true;
+
+            case R.id.nav_about:
+                AboutFragment aboutFragment = new AboutFragment();
+                displaySelectedFragment(aboutFragment, FRAGMENT_ABOUT);
+                return true;
+
+            default:
+                return true;
+        }
+    }
+
+    private void displaySelectedFragment(Fragment fragment, String fragmentTag) {
+        FragmentTransaction fragmentTransaction = getSupportFragmentManager().beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragment, fragmentTag);
+        fragmentTransaction.commit();
+    }
+
+    private void addFood() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        final AlertDialog dialog = builder.create();
+        View dialogView = View.inflate(MainActivity.this, R.layout.category_add_dialog, null);
+        dialog.setView(dialogView);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
+        final EditText etName = dialogView.findViewById(R.id.category_name);
+        Button btnSave = dialogView.findViewById(R.id.category_btn_save);
+        Button btnCancel = dialogView.findViewById(R.id.category_btn_cancel);
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (TextUtils.isEmpty(etName.getText().toString())) {
+                    Toast.makeText(MainActivity.this, "菜名不能为空", Toast.LENGTH_LONG).show();
+                } else {
+                    Food food = new Food();
+                    food.setName(etName.getText().toString());
+                    food.save();
+                    dialog.dismiss();
+                    categoryAdapter.addItem(food, 0);
+                    Toast.makeText(MainActivity.this, "添加成功", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    private void addCondiment() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(MainActivity.this);
+        final AlertDialog dialog = builder.create();
+        View dialogView = View.inflate(MainActivity.this, R.layout.condiment_add_dialog, null);
+        dialog.setView(dialogView);
+        Objects.requireNonNull(dialog.getWindow()).setBackgroundDrawableResource(android.R.color.transparent);
+        dialog.setCancelable(true);
+        dialog.setCanceledOnTouchOutside(false);
+        dialog.show();
+
+        final EditText etName = dialogView.findViewById(R.id.condiment_name);
+        Button btnSave = dialogView.findViewById(R.id.condiment_btn_save);
+        Button btnCancel = dialogView.findViewById(R.id.condiment_btn_cancel);
+
+        btnSave.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                if (TextUtils.isEmpty(etName.getText().toString())) {
+                    Toast.makeText(MainActivity.this, "配料名不能为空", Toast.LENGTH_LONG).show();
+                } else {
+                    Condiment condiment = new Condiment();
+                    condiment.setName(etName.getText().toString());
+                    condiment.save();
+                    dialog.dismiss();
+                    condimentAdapter.addItem(condiment, 0);
+                    Toast.makeText(MainActivity.this, "添加成功", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
+
+        btnCancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                dialog.dismiss();
+            }
+        });
+    }
+
+    public void showFloatingActionButton() {
+        fabBtn.show();
+    }
+
+    public void hideFloatingActionButton() {
+        fabBtn.hide();
+    }
 }

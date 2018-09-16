@@ -9,7 +9,7 @@
             android:title="待做订单" />
         <item
             android:id="@+id/nav_category"
-            android:title="菜式仓库" />
+            android:title="菜品管理" />
         <item
             android:id="@+id/nav_condiment"
             android:title="配料管理" />
