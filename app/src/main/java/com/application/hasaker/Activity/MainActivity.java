@@ -36,6 +36,7 @@ import com.application.hasaker.R;
 
 import org.litepal.LitePal;
 
+import java.util.List;
 import java.util.Objects;
 
 
@@ -60,6 +61,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         setContentView(R.layout.main_activity);
 
         LitePal.initialize(this);
+        List<Todo> mToDoList = LitePal.findAll(Todo.class);
+        toDoAdapter = new ToDoAdapter(mToDoList);
+        List<Food> mFoodList = LitePal.findAll(Food.class);
+        categoryAdapter = new CategoryAdapter(mFoodList);
+        List<Condiment> mCondimentList = LitePal.findAll(Condiment.class);
+        condimentAdapter = new CondimentAdapter(mCondimentList);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);

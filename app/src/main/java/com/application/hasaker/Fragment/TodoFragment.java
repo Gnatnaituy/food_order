@@ -31,7 +31,7 @@ import java.util.Objects;
 public class TodoFragment extends Fragment {
 
     private ToDoAdapter toDoAdapter;
-    ItemSwipeController itemSwipeController;
+    private ItemSwipeController itemSwipeController;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,15 +45,16 @@ public class TodoFragment extends Fragment {
     public View onCreateView(@Nullable LayoutInflater layoutInflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
-        final View rootView = Objects.requireNonNull(layoutInflater).inflate(R.layout.todo_fragment, container, false);
-        Context context = rootView.getContext();
-        RecyclerView todoRecyclerView = rootView.findViewById(R.id.todo_list);
-        RecyclerView.LayoutManager manager = new GridLayoutManager(context, 2);
-        todoRecyclerView.setLayoutManager(manager);
-        todoRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
         List<Todo> mToDoList = LitePal.findAll(Todo.class);
         toDoAdapter = new ToDoAdapter(mToDoList);
+
+        final View rootView = Objects.requireNonNull(layoutInflater).inflate(
+                R.layout.todo_fragment, container, false);
+        Context context = rootView.getContext();
+        RecyclerView todoRecyclerView = rootView.findViewById(R.id.todo_list);
+        todoRecyclerView.setAdapter(toDoAdapter);
+        todoRecyclerView.setLayoutManager(new GridLayoutManager(context, 2));
+        todoRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         itemSwipeController = new ItemSwipeController(new SwipeControllerActions() {
             @Override

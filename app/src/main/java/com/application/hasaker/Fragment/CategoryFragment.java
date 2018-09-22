@@ -43,15 +43,15 @@ public class CategoryFragment extends Fragment {
     public View onCreateView(@Nullable LayoutInflater layoutInflater, @Nullable ViewGroup container,
                              @Nullable Bundle savedInstanceState) {
 
+        List<Food> mFoodList = LitePal.findAll(Food.class);
+        categoryAdapter = new CategoryAdapter(mFoodList);
+
         View rootView = Objects.requireNonNull(layoutInflater).inflate(R.layout.category_fragment, container, false);
         Context context = rootView.getContext();
         RecyclerView foodRecyclerView = rootView.findViewById(R.id.category_list);
-        RecyclerView.LayoutManager manager = new LinearLayoutManager(context);
-        foodRecyclerView.setLayoutManager(manager);
+        foodRecyclerView.setAdapter(categoryAdapter);
+        foodRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         foodRecyclerView.setItemAnimator(new DefaultItemAnimator());
-
-        List<Food> mFoodList = LitePal.findAll(Food.class);
-        categoryAdapter = new CategoryAdapter(mFoodList);
 
         itemSwipeController = new ItemSwipeController(new SwipeControllerActions() {
             @Override
