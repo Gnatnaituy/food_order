@@ -121,6 +121,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     @Override
+    public void onResume() {
+        super.onResume();
+        TodoFragment todoFragment = new TodoFragment();
+        displaySelectedFragment(todoFragment, FRAGMENT_TODO);
+    }
+
+    @Override
     public void onBackPressed() {
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
@@ -224,6 +231,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     food.save();
                     dialog.dismiss();
                     categoryAdapter.addItem(food, 0);
+                    CategoryFragment categoryFragment = new CategoryFragment();
+                    displaySelectedFragment(categoryFragment, FRAGMENT_CATEGORY);
                     Toast.makeText(MainActivity.this, "添加成功", Toast.LENGTH_LONG).show();
                 }
             }
@@ -262,6 +271,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     condiment.save();
                     dialog.dismiss();
                     condimentAdapter.addItem(condiment, 0);
+                    CondimentFragment condimentFragment = new CondimentFragment();
+                    displaySelectedFragment(condimentFragment, FRAGMENT_CONDIMENT);
                     Toast.makeText(MainActivity.this, "添加成功", Toast.LENGTH_LONG).show();
                 }
             }

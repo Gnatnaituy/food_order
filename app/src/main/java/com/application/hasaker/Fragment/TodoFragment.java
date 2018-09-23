@@ -33,6 +33,8 @@ public class TodoFragment extends Fragment {
     private ToDoAdapter toDoAdapter;
     private ItemSwipeController itemSwipeController;
 
+//    private boolean isFirstLoading = true;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
