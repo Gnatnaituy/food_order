@@ -24,13 +24,13 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.FoodViewHolder
     class FoodViewHolder extends RecyclerView.ViewHolder {
         private TextView name;
         private TextView count;
-        private TextView peppery;
+        private TextView condiment;
 
         FoodViewHolder(View view) {
             super(view);
             name = view.findViewById(R.id.todo_food_name);
             count = view.findViewById(R.id.todo_food_count);
-            peppery = view.findViewById(R.id.todo_food_peppery);
+            condiment = view.findViewById(R.id.todo_food_condiment);
         }
     }
 
@@ -46,7 +46,7 @@ public class ToDoAdapter extends RecyclerView.Adapter<ToDoAdapter.FoodViewHolder
         Todo todo = todoList.get(position);
         holder.name.setText(todo.getName());
         holder.count.setText(todo.getCount());
-        holder.peppery.setText(todo.getPeppery());
+        holder.condiment.setText(todo.getCondiment());
     }
 
     @Override

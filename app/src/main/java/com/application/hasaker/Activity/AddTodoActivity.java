@@ -1,5 +1,6 @@
 package com.application.hasaker.Activity;
 
+import android.content.Context;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -23,6 +24,7 @@ import com.application.hasaker.R;
 
 import org.litepal.LitePal;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
@@ -30,6 +32,7 @@ import java.util.Objects;
 public class AddTodoActivity extends AppCompatActivity {
 
     private AddToDoAdapter addToDoAdapter;
+    private List<Food> mAddToDoList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -45,7 +48,7 @@ public class AddTodoActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        List<Food> mAddToDoList = LitePal.findAll(Food.class);
+        mAddToDoList = LitePal.findAll(Food.class);
         addToDoAdapter = new AddToDoAdapter(mAddToDoList);
     }
 
@@ -70,23 +73,41 @@ public class AddTodoActivity extends AppCompatActivity {
                 final String foodNameFromItem = addToDoAdapter.foodList.get(position).getName();
                 final TextView foodNameOnDialog = dialogView.findViewById(R.id.dialog_food_name);
                 final RadioGroup radioGroupCount = dialogView.findViewById(R.id.radiogroup_count);
-                final RadioGroup radioGroupPeppery = dialogView.findViewById(R.id.radiogroup_peppery);
+//                final RadioGroup radioGroupPeppery = dialogView.findViewById(R.id.radiogroup_peppery);
+                final RadioGroup radioGroupCondiment = findViewById(R.id.condiment_radio_group);
 
+                // Count Button configuration
                 RadioButton count_1 = dialogView.findViewById(R.id.count_1);
-                RadioButton peppery_1 = dialogView.findViewById(R.id.peppery_1);
+//                RadioButton peppery_1 = dialogView.findViewById(R.id.peppery_1);
                 Button btnSave = dialogView.findViewById(R.id.addtodo_dialog_add);
                 Button btnCancel = dialogView.findViewById(R.id.addtodo_dialog_cancel);
 
+                // Dynamic condiment Button Group configuration
+                for (Food aMAddToDoList : mAddToDoList) {
+                    RadioButton radioButton = new RadioButton(AddTodoActivity.this);
+                    RadioGroup.LayoutParams lp = new RadioGroup.LayoutParams(
+                            RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
+                    // radioButton margins
+                    lp.setMargins(15, 0, 0, 0);
+                    radioButton.setButtonDrawable(R.drawable.radio_bg);
+                    radioButton.setPadding(80, 0, 0, 0);
+                    radioButton.setText(aMAddToDoList.getName());
+                    // add radioButton ot radioGroupCondiment
+                    radioGroupCondiment.addView(radioButton);
+                }
+
                 foodNameOnDialog.setText(foodNameFromItem);
+
                 count_1.setChecked(true);
-                peppery_1.setChecked(true);
+//                peppery_1.setChecked(true);
 
                 btnSave.setOnClickListener(new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
                         Todo todo = new Todo();
                         String count = null;
-                        String peppery = null;
+//                        String peppery = null;
+                        String condimentAdded = null;
 
                         for (int i = 0; i < radioGroupCount.getChildCount(); i++) {
                             RadioButton radioButton = (RadioButton) radioGroupCount.getChildAt(i);
@@ -95,16 +116,23 @@ public class AddTodoActivity extends AppCompatActivity {
                             }
                         }
 
-                        for (int i = 0; i < radioGroupPeppery.getChildCount(); i++) {
-                            RadioButton radioButton = (RadioButton) radioGroupPeppery.getChildAt(i);
+//                        for (int i = 0; i < radioGroupPeppery.getChildCount(); i++) {
+//                            RadioButton radioButton = (RadioButton) radioGroupPeppery.getChildAt(i);
+//                            if (radioButton.isChecked()) {
+//                                peppery = radioButton.getText().toString();
+//                            }
+//                        }
+
+                        for (int i = 0; i < radioGroupCondiment.getChildCount(); i++) {
+                            RadioButton radioButton = (RadioButton) radioGroupCondiment.getChildAt(i);
                             if (radioButton.isChecked()) {
-                                peppery = radioButton.getText().toString();
+                                condimentAdded = condimentAdded + radioButton.getText();
                             }
                         }
 
                         todo.setName(foodNameFromItem);
                         todo.setCount(count);
-                        todo.setPeppery(peppery);
+                        todo.setCondiment(condimentAdded);
                         todo.save();
                         dialog.dismiss();
                     }
