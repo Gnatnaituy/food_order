@@ -7,6 +7,7 @@ import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
+import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
@@ -50,7 +51,7 @@ public class CategoryFragment extends Fragment {
         Context context = rootView.getContext();
         RecyclerView foodRecyclerView = rootView.findViewById(R.id.category_list);
         foodRecyclerView.setAdapter(categoryAdapter);
-        foodRecyclerView.setLayoutManager(new LinearLayoutManager(context));
+        foodRecyclerView.setLayoutManager(new GridLayoutManager(context, 3));
         foodRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         itemSwipeController = new ItemSwipeController(new SwipeControllerActions() {

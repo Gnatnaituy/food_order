@@ -9,6 +9,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
@@ -39,6 +40,7 @@ public class TodoFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Objects.requireNonNull(getActivity()).setTitle("待做订单");
+        // Can't get the fuck MainActivity Instance......
         Objects.requireNonNull((MainActivity) getActivity()).showFloatingActionButton();
     }
 
@@ -50,12 +52,13 @@ public class TodoFragment extends Fragment {
         List<Todo> mToDoList = LitePal.findAll(Todo.class);
         toDoAdapter = new ToDoAdapter(mToDoList);
 
+        // Creating the rootView for TodoFragment
         final View rootView = Objects.requireNonNull(layoutInflater).inflate(
                 R.layout.todo_fragment, container, false);
         Context context = rootView.getContext();
         RecyclerView todoRecyclerView = rootView.findViewById(R.id.todo_list);
         todoRecyclerView.setAdapter(toDoAdapter);
-        todoRecyclerView.setLayoutManager(new GridLayoutManager(context, 2));
+        todoRecyclerView.setLayoutManager(new LinearLayoutManager(context));
         todoRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         itemSwipeController = new ItemSwipeController(new SwipeControllerActions() {

@@ -18,6 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent">
 
+        <!--Food name one the dialog title-->
         <TextView
             android:id="@+id/dialog_food_name"
             android:layout_width="match_parent"
@@ -25,10 +26,11 @@
             android:layout_marginTop="8dp"
             android:layout_marginStart="8dp"
             android:gravity="center_horizontal"
-            android:text="重庆小面"
+            android:text="菜的名字"
             android:textStyle="bold"
             android:textSize="28sp"/>
 
+        <!--Count tip-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -37,6 +39,7 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="25dp"/>
 
+        <!--Count RadioGroup-->
         <RadioGroup
             android:id="@+id/radiogroup_count"
             android:layout_width="match_parent"
@@ -106,34 +109,36 @@
 
         </RadioGroup>
 
+        <!--Condiment tip-->
         <TextView
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="start"
-            android:text="辣度"
+            android:text="佐料"
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"/>
 
-        <HorizontalScrollView
-                android:layout_width="match_parent"
+        <!--<HorizontalScrollView-->
+                <!--android:layout_width="match_parent"-->
+                <!--android:layout_height="wrap_content"-->
+                <!--android:layout_marginTop="10dp"-->
+                <!--android:layout_marginEnd="10dp"-->
+                <!--android:fillViewport="false"-->
+                <!--android:scrollbars="none">-->
+
+        <!--Condiment RadioGroup-->
+        <LinearLayout
+                android:id="@+id/condiment_on_dialog"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="10dp"
-                android:layout_marginEnd="10dp"
-                android:fillViewport="false"
-                android:scrollbars="none">
+                android:orientation="horizontal">
 
-            <LinearLayout
-                    android:id="@+id/condiment_on_dialog"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+            <RadioGroup
+                    android:id="@+id/condiment_radio_group"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
 
-                <RadioGroup
-                        android:id="@+id/condiment_radio_group"
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent">
-
-                </RadioGroup>
+            </RadioGroup>
 
                 <!--<RadioGroup-->
                     <!--android:id="@+id/radiogroup_peppery"-->
@@ -218,7 +223,7 @@
 
             </LinearLayout>
 
-        </HorizontalScrollView>
+        <!--</HorizontalScrollView>-->
 
         <LinearLayout
             android:layout_width="match_parent"
