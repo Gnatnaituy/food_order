@@ -24,4 +24,5 @@ dependencies {
     implementation 'com.android.support.constraint:constraint-layout:1.1.3'
     implementation 'com.android.support:design:28.0.0-rc02'
     implementation 'org.litepal.android:core:2.0.0'
+    implementation 'liji.library.dev:multilinechooselib:1.6.0'
 }

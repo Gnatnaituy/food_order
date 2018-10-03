@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<CheckBox
+        xmlns:android="http://schemas.android.com/apk/res/android"
+        android:button="@null"
+        android:padding="10dp"
+        android:layout_marginEnd="10dp"
+        android:background="@drawable/comment_stu_bg"
+        android:text="调味料"
+        android:textSize="18sp"
+        android:textColor="@drawable/comment_stu_tv_bg"
+        android:textAlignment="center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
+</CheckBox>

@@ -23,8 +23,7 @@
             android:id="@+id/dialog_food_name"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="8dp"
-            android:layout_marginStart="8dp"
+            android:layout_marginTop="15dp"
             android:gravity="center_horizontal"
             android:text="菜的名字"
             android:textStyle="bold"
@@ -37,7 +36,7 @@
             android:layout_gravity="start"
             android:text="数量"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="25dp"/>
+            android:layout_marginTop="20dp"/>
 
         <!--Count RadioGroup-->
         <RadioGroup
@@ -118,113 +117,15 @@
             android:layout_marginStart="20dp"
             android:layout_marginTop="20dp"/>
 
-        <!--<HorizontalScrollView-->
-                <!--android:layout_width="match_parent"-->
-                <!--android:layout_height="wrap_content"-->
-                <!--android:layout_marginTop="10dp"-->
-                <!--android:layout_marginEnd="10dp"-->
-                <!--android:fillViewport="false"-->
-                <!--android:scrollbars="none">-->
+        <!--Condiment Checkbox-->
+        <com.ihidea.multilinechooselib.MultiLineChooseLayout
+            android:id="@+id/condiment_checkbox"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            style="@style/FlowLayout"/>
 
-        <!--Condiment RadioGroup-->
-        <LinearLayout
-                android:id="@+id/condiment_on_dialog"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-
-            <RadioGroup
-                    android:id="@+id/condiment_radio_group"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent">
-
-            </RadioGroup>
-
-                <!--<RadioGroup-->
-                    <!--android:id="@+id/radiogroup_peppery"-->
-                    <!--android:layout_width="match_parent"-->
-                    <!--android:layout_height="wrap_content"-->
-                    <!--android:orientation="horizontal"-->
-                    <!--android:layout_marginStart="20dp">-->
-
-                    <!--<RadioButton-->
-                        <!--android:id="@+id/peppery_1"-->
-                        <!--android:layout_marginEnd="10dp"-->
-                        <!--android:layout_width="60dp"-->
-                        <!--android:layout_height="40dp"-->
-                        <!--android:button="@null"-->
-                        <!--android:textAlignment="center"-->
-                        <!--android:textColor="@drawable/comment_stu_tv_bg"-->
-                        <!--android:background="@drawable/comment_stu_bg"-->
-                        <!--android:text="不辣"-->
-                        <!--android:textSize="18sp"/>-->
-
-                    <!--<RadioButton-->
-                        <!--android:id="@+id/peppery_2"-->
-                        <!--android:layout_marginEnd="10dp"-->
-                        <!--android:layout_width="60dp"-->
-                        <!--android:layout_height="40dp"-->
-                        <!--android:button="@null"-->
-                        <!--android:textAlignment="center"-->
-                        <!--android:textColor="@drawable/comment_stu_tv_bg"-->
-                        <!--android:background="@drawable/comment_stu_bg"-->
-                        <!--android:text="中辣"-->
-                        <!--android:textSize="18sp"/>-->
-
-                    <!--<RadioButton-->
-                        <!--android:id="@+id/peppery_3"-->
-                        <!--android:layout_marginEnd="10dp"-->
-                        <!--android:layout_width="60dp"-->
-                        <!--android:layout_height="40dp"-->
-                        <!--android:button="@null"-->
-                        <!--android:textAlignment="center"-->
-                        <!--android:textColor="@drawable/comment_stu_tv_bg"-->
-                        <!--android:background="@drawable/comment_stu_bg"-->
-                        <!--android:text="超辣"-->
-                        <!--android:textSize="18sp"/>-->
-
-                    <!--<RadioButton-->
-                        <!--android:id="@+id/peppery_4"-->
-                        <!--android:layout_marginEnd="10dp"-->
-                        <!--android:layout_width="60dp"-->
-                        <!--android:layout_height="40dp"-->
-                        <!--android:button="@null"-->
-                        <!--android:textAlignment="center"-->
-                        <!--android:textColor="@drawable/comment_stu_tv_bg"-->
-                        <!--android:background="@drawable/comment_stu_bg"-->
-                        <!--android:text="麻辣"-->
-                        <!--android:textSize="18sp"/>-->
-
-                    <!--<RadioButton-->
-                        <!--android:id="@+id/peppery_5"-->
-                        <!--android:layout_marginEnd="10dp"-->
-                        <!--android:layout_width="80dp"-->
-                        <!--android:layout_height="40dp"-->
-                        <!--android:button="@null"-->
-                        <!--android:textAlignment="center"-->
-                        <!--android:textColor="@drawable/comment_stu_tv_bg"-->
-                        <!--android:background="@drawable/comment_stu_bg"-->
-                        <!--android:text="中麻辣"-->
-                        <!--android:textSize="18sp"/>-->
-
-                    <!--<RadioButton-->
-                        <!--android:id="@+id/peppery_6"-->
-                        <!--android:layout_marginEnd="10dp"-->
-                        <!--android:layout_width="80dp"-->
-                        <!--android:layout_height="40dp"-->
-                        <!--android:button="@null"-->
-                        <!--android:textAlignment="center"-->
-                        <!--android:textColor="@drawable/comment_stu_tv_bg"-->
-                        <!--android:background="@drawable/comment_stu_bg"-->
-                        <!--android:text="超麻辣"-->
-                        <!--android:textSize="18sp"/>-->
-
-                <!--</RadioGroup>-->
-
-            </LinearLayout>
-
-        <!--</HorizontalScrollView>-->
-
+        <!--Save and Cancel Button-->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -232,7 +133,7 @@
             android:orientation="horizontal"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
-            android:layout_marginTop="40dp"
+            android:layout_marginTop="30dp"
             style="?android:attr/buttonBarStyle">
 
             <Button

@@ -7,7 +7,6 @@ import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.*;
 
@@ -17,8 +16,11 @@ import com.application.hasaker.DB.Food;
 import com.application.hasaker.DB.Todo;
 import com.application.hasaker.R;
 
+import com.ihidea.multilinechooselib.MultiLineChooseLayout;
 import org.litepal.LitePal;
 
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 
@@ -26,14 +28,9 @@ import java.util.Objects;
 public class AddTodoActivity extends AppCompatActivity {
 
     private AddToDoAdapter addToDoAdapter;
-    private List<Food> mAddToDoList;
     private List<Condiment> mCondimentList;
+    private List<String> mCondiment = new ArrayList<>();
 
-    private LinearLayout mColumnsLinearLayout;
-    private LayoutInflater inflater;
-
-    private int column = 5;
-    private int index = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -49,7 +46,7 @@ public class AddTodoActivity extends AppCompatActivity {
     }
 
     private void initData() {
-        mAddToDoList = LitePal.findAll(Food.class);
+        List<Food> mAddToDoList = LitePal.findAll(Food.class);
         mCondimentList = LitePal.findAll(Condiment.class);
         addToDoAdapter = new AddToDoAdapter(mAddToDoList);
     }
@@ -78,27 +75,17 @@ public class AddTodoActivity extends AppCompatActivity {
                 final String foodNameFromItem = addToDoAdapter.foodList.get(position).getName();
                 final TextView foodNameOnDialog = dialogView.findViewById(R.id.dialog_food_name);
                 final RadioGroup radioGroupCount = dialogView.findViewById(R.id.radiogroup_count);
-                final RadioGroup radioGroupCondiment = dialogView.findViewById(R.id.condiment_radio_group);
+                final MultiLineChooseLayout flowLayout = dialogView.findViewById(R.id.condiment_checkbox);
                 RadioButton count_1 = dialogView.findViewById(R.id.count_1);
                 Button btnSave = dialogView.findViewById(R.id.addtodo_dialog_add);
                 Button btnCancel = dialogView.findViewById(R.id.addtodo_dialog_cancel);
 
                 // dynamically adding condiment buttons ot radioGroupCondiment
-                for (int i = 0; i < mCondimentList.size(); i++) {
-                    RadioGroup.LayoutParams lp = new RadioGroup.LayoutParams(
-                            RadioGroup.LayoutParams.WRAP_CONTENT, RadioGroup.LayoutParams.WRAP_CONTENT);
-                    // radioButton margins
-                    lp.setMargins(0, 0, 10, 0);
-                    // Create a button for a condiment
-                    RadioButton radioButton = new RadioButton(AddTodoActivity.this);
-                    radioButton.setId(i);
-                    radioButton.setButtonDrawable(R.drawable.radio_bg);
-                    radioButton.setPadding(80, 0, 0, 0);
-                    radioButton.setText(mCondimentList.get(i).getName());
-                    // add radioButton ot radioGroupCondiment
-                    radioGroupCondiment.addView(radioButton);
+                for (Condiment aMCondimentList : mCondimentList) {
+                    mCondiment.add(aMCondimentList.getName());
                 }
 
+                flowLayout.setList(mCondiment);
                 // foodName conf
                 foodNameOnDialog.setText(foodNameFromItem);
                 // Count conf
@@ -109,7 +96,7 @@ public class AddTodoActivity extends AppCompatActivity {
                     public void onClick(View view) {
                         Todo todo = new Todo();
                         String count = null;
-                        StringBuilder condimentAdded = new StringBuilder();
+                        String condimentAdded;
 
                         // Get the count selected
                         for (int i = 0; i < radioGroupCount.getChildCount(); i++) {
@@ -120,16 +107,11 @@ public class AddTodoActivity extends AppCompatActivity {
                         }
 
                         // Get the condiments selected
-                        for (int i = 0; i < radioGroupCondiment.getChildCount(); i++) {
-                            RadioButton radioButton = (RadioButton) radioGroupCondiment.getChildAt(i);
-                            if (radioButton.isChecked()) {
-                                condimentAdded.append(radioButton.getText()).append(" ");
-                            }
-                        }
+                        condimentAdded = Arrays.toString(flowLayout.getAllItemSelectedTextWithStringArray());
 
                         todo.setName(foodNameFromItem);
                         todo.setCount(count);
-                        todo.setCondiment(condimentAdded.toString());
+                        todo.setCondiment(condimentAdded.replaceAll("\\[|]|,", ""));
                         todo.save();
                         dialog.dismiss();
                     }
@@ -144,48 +126,4 @@ public class AddTodoActivity extends AppCompatActivity {
             }
         });
     }
-
-//    private void displayColumns(int displayNumber) {
-//
-//        if (displayNumber <= 0) {
-//            return;
-//        }
-//
-//        // The rows should be created
-//        int rows = displayNumber / column;
-//
-//        // Judgement if all rows are full filled
-//        if (displayNumber % column == 0) {
-//            for (int i = 0; i < rows; i++) {
-//                createLinear(column);
-//            }
-//        } else {
-//            for (int i = 0; i < rows; i++) {
-//                createLinear(i);
-//            }
-//            // use % to get the last rows that not enough to full filled
-//            rows = displayNumber % column;
-//            createLinear(rows);
-//        }
-//
-//    }
-//
-//    private void createLinear(int i) {
-//        // Create LinearLayout
-//        LinearLayout linearLayout = new LinearLayout(this);
-//        // Config LayoutParams
-//        LinearLayout.LayoutParams lp = new LinearLayout.LayoutParams(
-//                LinearLayout.LayoutParams.MATCH_PARENT, LinearLayout.LayoutParams.WRAP_CONTENT);
-//        // Config horizontal layout
-//        linearLayout.setOrientation(LinearLayout.HORIZONTAL);
-//        // Set LayoutParams for the LinearLayout
-//        linearLayout.setLayoutParams(lp);
-//        // Circularly adding
-//        for (int j = 0; j < i; j++) {
-//            // Get the target layout xml file
-//            View view = inflater.inflate(R.layout.condiment_add_dialog, null, false);
-//            // Get component
-//            RadioButton condimentButton = view.findViewById(R.id.)
-//        }
-//    }
 }
