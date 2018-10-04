@@ -9,7 +9,7 @@
             android:id="@+id/nav_todo"
             android:title="待做订单" />
         <item
-                android:icon="@drawable/ic_donut_large_black_36dp"
+                android:icon="@drawable/ic_label_outline_black_36dp"
             android:id="@+id/nav_category"
             android:title="菜品管理" />
         <item
@@ -17,7 +17,7 @@
             android:id="@+id/nav_condiment"
             android:title="配料管理" />
         <item
-                android:icon="@drawable/ic_label_outline_black_36dp"
+                android:icon="@drawable/ic_code_black_36dp"
             android:id="@+id/nav_about"
             android:title="关于" />
     </group>

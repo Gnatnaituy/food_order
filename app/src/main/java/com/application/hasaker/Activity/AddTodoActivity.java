@@ -80,6 +80,8 @@ public class AddTodoActivity extends AppCompatActivity {
                 Button btnSave = dialogView.findViewById(R.id.addtodo_dialog_add);
                 Button btnCancel = dialogView.findViewById(R.id.addtodo_dialog_cancel);
 
+                // Clear ArrayList first
+                mCondiment.clear();
                 // dynamically adding condiment buttons ot radioGroupCondiment
                 for (Condiment aMCondimentList : mCondimentList) {
                     mCondiment.add(aMCondimentList.getName());

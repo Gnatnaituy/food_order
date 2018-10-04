@@ -4,10 +4,10 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <item
-        android:id="@+id/go_to_category"
-        android:icon="@drawable/baseline_reorder_24"
-        android:title="菜品管理"
-        app:showAsAction="never" />
+    <!--<item-->
+        <!--android:id="@+id/go_to_category"-->
+        <!--android:icon="@drawable/baseline_reorder_24"-->
+        <!--android:title="菜品管理"-->
+        <!--app:showAsAction="never" />-->
 
 </menu>

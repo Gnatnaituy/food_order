@@ -50,8 +50,8 @@ public class MainActivity extends AppCompatActivity
     private static final String FRAGMENT_ABOUT = "about";
     
     private ToDoAdapter toDoAdapter;
-    private CategoryAdapter categoryAdapter;
-    private CondimentAdapter condimentAdapter;
+//    private CategoryAdapter categoryAdapter;
+//    private CondimentAdapter condimentAdapter;
 
     private DrawerLayout drawerLayout;
     public FloatingActionButton fabBtn;
@@ -65,9 +65,9 @@ public class MainActivity extends AppCompatActivity
         List<Todo> mToDoList = LitePal.findAll(Todo.class);
         toDoAdapter = new ToDoAdapter(mToDoList);
         List<Food> mFoodList = LitePal.findAll(Food.class);
-        categoryAdapter = new CategoryAdapter(mFoodList);
+//        categoryAdapter = new CategoryAdapter(mFoodList);
         List<Condiment> mCondimentList = LitePal.findAll(Condiment.class);
-        condimentAdapter = new CondimentAdapter(mCondimentList);
+//        condimentAdapter = new CondimentAdapter(mCondimentList);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -153,10 +153,33 @@ public class MainActivity extends AppCompatActivity
         // as you specify a parent activity in AndroidManifest.xml.
         int id = item.getItemId();
 
-        //noinspection SimplifiableIfStatement
+        // Determine which Fragment is right now
+        Fragment currentFragment = getSupportFragmentManager().findFragmentById(R.id.fragment_container);
+        String fragmentTag = Objects.requireNonNull(currentFragment).getTag();
+
         if (id == R.id.action_all_clear) {
-            LitePal.deleteAll(Todo.class);
-            toDoAdapter.clear();
+            switch (Objects.requireNonNull(fragmentTag)) {
+                case FRAGMENT_TODO:
+                    LitePal.deleteAll(Todo.class);
+                    toDoAdapter.clear();
+                    TodoFragment todoFragment = new TodoFragment();
+                    displaySelectedFragment(todoFragment, FRAGMENT_TODO);
+                    break;
+                case FRAGMENT_CATEGORY:
+                    ((CategoryFragment) currentFragment).deleteSelectedFood(
+                            ((CategoryFragment) currentFragment).categoryFlowLayout);
+                    CategoryFragment categoryFragment = new CategoryFragment();
+                    displaySelectedFragment(categoryFragment, FRAGMENT_CATEGORY);
+                    break;
+                case FRAGMENT_CONDIMENT:
+                    ((CondimentFragment) currentFragment).deleteSelectedCondiment(
+                            ((CondimentFragment) currentFragment).condimentFlowLayout);
+                    CondimentFragment condimentFragment = new CondimentFragment();
+                    displaySelectedFragment(condimentFragment, FRAGMENT_CONDIMENT);
+                    break;
+                default:
+                    break;
+            }
         }
 
         return super.onOptionsItemSelected(item);
@@ -231,7 +254,7 @@ public class MainActivity extends AppCompatActivity
                     food.setName(etName.getText().toString());
                     food.save();
                     dialog.dismiss();
-                    categoryAdapter.addItem(food, 0);
+//                    categoryAdapter.addItem(food, 0);
                     CategoryFragment categoryFragment = new CategoryFragment();
                     displaySelectedFragment(categoryFragment, FRAGMENT_CATEGORY);
                     Toast.makeText(MainActivity.this, "添加成功", Toast.LENGTH_LONG).show();
@@ -271,7 +294,7 @@ public class MainActivity extends AppCompatActivity
                     condiment.setName(etName.getText().toString());
                     condiment.save();
                     dialog.dismiss();
-                    condimentAdapter.addItem(condiment, 0);
+//                    condimentAdapter.addItem(condiment, 0);
                     CondimentFragment condimentFragment = new CondimentFragment();
                     displaySelectedFragment(condimentFragment, FRAGMENT_CONDIMENT);
                     Toast.makeText(MainActivity.this, "添加成功", Toast.LENGTH_LONG).show();

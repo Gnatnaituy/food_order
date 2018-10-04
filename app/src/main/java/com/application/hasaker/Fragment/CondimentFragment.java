@@ -22,16 +22,21 @@ import com.application.hasaker.DB.Condiment;
 import com.application.hasaker.ItemSwipeController;
 import com.application.hasaker.R;
 import com.application.hasaker.SwipeControllerActions;
+import com.ihidea.multilinechooselib.MultiLineChooseLayout;
 import org.litepal.LitePal;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 
 
 public class CondimentFragment extends Fragment {
 
-    private CondimentAdapter condimentAdapter;
-    private ItemSwipeController itemSwipeController;
+//    private CondimentAdapter condimentAdapter;
+//    private ItemSwipeController itemSwipeController;
+
+    private List<String> mCondiment = new ArrayList<>();
+    public MultiLineChooseLayout condimentFlowLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,37 +52,55 @@ public class CondimentFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         List<Condiment> mCondimentList = LitePal.findAll(Condiment.class);
-        condimentAdapter = new CondimentAdapter(mCondimentList);
+//        condimentAdapter = new CondimentAdapter(mCondimentList);
 
         final View rootView = Objects.requireNonNull(layoutInflater).inflate(
                 R.layout.condiment_fragment, container, false);
-        Context context = rootView.getContext();
-        RecyclerView condimentRecyclerView = rootView.findViewById(R.id.condiment_list);
-        condimentRecyclerView.setAdapter(condimentAdapter);
-        condimentRecyclerView.setLayoutManager(new GridLayoutManager(context, 3));
-        condimentRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
-        itemSwipeController = new ItemSwipeController(new SwipeControllerActions() {
-            @Override
-            public void onRightClicked(int position) {
-                Condiment condiment = condimentAdapter.condimentList.get(position);
-                condiment.delete();
-                condimentAdapter.condimentList.remove(position);
-                condimentAdapter.notifyItemRemoved(position);
-                condimentAdapter.notifyItemRangeChanged(position, condimentAdapter.getItemCount());
-            }
-        });
+        condimentFlowLayout = rootView.findViewById(R.id.condiment_list);
 
-        final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemSwipeController);
-        itemTouchHelper.attachToRecyclerView(condimentRecyclerView);
+        for (Condiment theCondiment : mCondimentList) {
+            mCondiment.add(theCondiment.getName());
+        }
 
-        condimentRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-                itemSwipeController.onDraw(c);
-            }
-        });
+        condimentFlowLayout.setList(mCondiment);
+
+
+//        Context context = rootView.getContext();
+//        RecyclerView condimentRecyclerView = rootView.findViewById(R.id.condiment_list);
+//        condimentRecyclerView.setAdapter(condimentAdapter);
+//        condimentRecyclerView.setLayoutManager(new GridLayoutManager(context, 3));
+//        condimentRecyclerView.setItemAnimator(new DefaultItemAnimator());
+//
+//        itemSwipeController = new ItemSwipeController(new SwipeControllerActions() {
+//            @Override
+//            public void onRightClicked(int position) {
+//                Condiment condiment = condimentAdapter.condimentList.get(position);
+//                condiment.delete();
+//                condimentAdapter.condimentList.remove(position);
+//                condimentAdapter.notifyItemRemoved(position);
+//                condimentAdapter.notifyItemRangeChanged(position, condimentAdapter.getItemCount());
+//            }
+//        });
+//
+//        final ItemTouchHelper itemTouchHelper = new ItemTouchHelper(itemSwipeController);
+//        itemTouchHelper.attachToRecyclerView(condimentRecyclerView);
+//
+//        condimentRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+//            @Override
+//            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+//                itemSwipeController.onDraw(c);
+//            }
+//        });
 
         return rootView;
+    }
+
+    // Delete the condiment selected
+    public void deleteSelectedCondiment(MultiLineChooseLayout multiLineChooseLayout) {
+        String[] selectedCondiment = multiLineChooseLayout.getAllItemSelectedTextWithStringArray();
+        for (String aSelectedCondiment : selectedCondiment) {
+            LitePal.deleteAll(Condiment.class, "name=?", aSelectedCondiment);
+        }
     }
 }

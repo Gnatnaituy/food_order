@@ -22,16 +22,22 @@ import com.application.hasaker.ItemSwipeController;
 import com.application.hasaker.R;
 import com.application.hasaker.SwipeControllerActions;
 
+import com.ihidea.multilinechooselib.MultiLineChooseLayout;
 import org.litepal.LitePal;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
+import java.util.Stack;
 
 
 public class CategoryFragment extends Fragment {
 
-    private CategoryAdapter categoryAdapter;
-    private ItemSwipeController itemSwipeController;
+//    private CategoryAdapter categoryAdapter;
+//    private ItemSwipeController itemSwipeController;
+
+    private List<String> mFood = new ArrayList<>();
+    public MultiLineChooseLayout categoryFlowLayout;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -45,36 +51,53 @@ public class CategoryFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
 
         List<Food> mFoodList = LitePal.findAll(Food.class);
-        categoryAdapter = new CategoryAdapter(mFoodList);
+//        categoryAdapter = new CategoryAdapter(mFoodList);
 
         View rootView = Objects.requireNonNull(layoutInflater).inflate(R.layout.category_fragment, container, false);
-        Context context = rootView.getContext();
-        RecyclerView foodRecyclerView = rootView.findViewById(R.id.category_list);
-        foodRecyclerView.setAdapter(categoryAdapter);
-        foodRecyclerView.setLayoutManager(new GridLayoutManager(context, 3));
-        foodRecyclerView.setItemAnimator(new DefaultItemAnimator());
+//        Context context = rootView.getContext();
 
-        itemSwipeController = new ItemSwipeController(new SwipeControllerActions() {
-            @Override
-            public void onRightClicked(int position) {
-                Food food = categoryAdapter.foodList.get(position);
-                food.delete();
-                categoryAdapter.foodList.remove(position);
-                categoryAdapter.notifyItemRemoved(position);
-                categoryAdapter.notifyItemRangeChanged(position, categoryAdapter.getItemCount());
-            }
-        });
+        categoryFlowLayout = rootView.findViewById(R.id.category_list);
 
-        final ItemTouchHelper itemTouchhelper = new ItemTouchHelper(itemSwipeController);
-        itemTouchhelper.attachToRecyclerView(foodRecyclerView);
+        for (Food theFood : mFoodList) {
+            mFood.add(theFood.getName());
+        }
 
-        foodRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
-            @Override
-            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
-                itemSwipeController.onDraw(c);
-            }
-        });
+        categoryFlowLayout.setList(mFood);
+
+//        RecyclerView foodRecyclerView = rootView.findViewById(R.id.category_list);
+//        foodRecyclerView.setAdapter(categoryAdapter);
+//        foodRecyclerView.setLayoutManager(new GridLayoutManager(context, 3));
+//        foodRecyclerView.setItemAnimator(new DefaultItemAnimator());
+//
+//        itemSwipeController = new ItemSwipeController(new SwipeControllerActions() {
+//            @Override
+//            public void onRightClicked(int position) {
+//                Food food = categoryAdapter.foodList.get(position);
+//                food.delete();
+//                categoryAdapter.foodList.remove(position);
+//                categoryAdapter.notifyItemRemoved(position);
+//                categoryAdapter.notifyItemRangeChanged(position, categoryAdapter.getItemCount());
+//            }
+//        });
+//
+//        final ItemTouchHelper itemTouchhelper = new ItemTouchHelper(itemSwipeController);
+//        itemTouchhelper.attachToRecyclerView(foodRecyclerView);
+//
+//        foodRecyclerView.addItemDecoration(new RecyclerView.ItemDecoration() {
+//            @Override
+//            public void onDraw(@NonNull Canvas c, @NonNull RecyclerView parent, @NonNull RecyclerView.State state) {
+//                itemSwipeController.onDraw(c);
+//            }
+//        });
 
         return rootView;
+    }
+
+    // Delete the food selected
+    public void deleteSelectedFood(MultiLineChooseLayout multiLineChooseLayout) {
+        String[] selectedFood = multiLineChooseLayout.getAllItemSelectedTextWithStringArray();
+        for (String aSelectedFood : selectedFood) {
+            LitePal.deleteAll(Food.class, "name=?", aSelectedFood);
+        }
     }
 }
