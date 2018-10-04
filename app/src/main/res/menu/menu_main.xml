@@ -5,6 +5,6 @@
     <item
         android:id="@+id/action_all_clear"
         android:orderInCategory="100"
-        android:title="清空待做订单"
+        android:title="删除"
         app:showAsAction="never" />
 </menu>

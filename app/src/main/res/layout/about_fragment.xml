@@ -5,10 +5,11 @@
 
     <TextView
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_gravity="center_horizontal"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:gravity="center"
         android:textSize="30sp"
-        android:text="About_Fragment">
+        android:text="Nothing to show...">
     </TextView>
 
 </LinearLayout>
